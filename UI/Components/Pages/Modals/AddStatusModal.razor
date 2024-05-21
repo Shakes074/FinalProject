@@ -1,0 +1,62 @@
+﻿@using AntDesign
+@using Models
+@using System.Text.Json
+@using Service;
+
+@inherits FeedbackComponent<Status>
+
+<Form Model="@_model" Layout="vertical" ValidateMode=@FormValidateMode.Complex>
+    <FormItem Label="Name" Required>
+        <Input @bind-Value="@context.Name" />
+    </FormItem>
+    <FormItem Label="Discription" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.Description" />
+    </FormItem>
+    <FormItem Label="Criteria" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.Criteria" />
+    </FormItem>
+</Form>
+
+@code {
+    private Status _model;
+    private bool isUpdate = false;
+
+    protected override void OnInitialized()
+    {
+        isUpdate = base.Options.ID <= 0;
+        _model = base.Options ?? new Status();
+        base.OnInitialized();
+    }
+
+    private void OnFinish(EditContext editContext)
+    {
+        Console.WriteLine($"Success:{JsonSerializer.Serialize(_model)}");
+        _ = base.FeedbackRef.CloseAsync();
+    }
+
+    private void OnFinishFailed(EditContext editContext)
+    {
+        Console.WriteLine($"Failed:{JsonSerializer.Serialize(_model)}");
+    }
+
+    public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
+    {
+        Console.WriteLine("ADD API", _model); // CALL API to ADD
+
+        var response = await StatusService.RegisterStatus(_model);
+
+        if (response)
+        {
+
+        }
+        else
+        {
+            Console.WriteLine("Add Failed");
+        }
+    }
+
+    public override async Task OnFeedbackCancelAsync(ModalClosingEventArgs args)
+    {
+        Console.WriteLine("You clicked Cancel button");
+    }
+}

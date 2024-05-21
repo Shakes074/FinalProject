@@ -1,0 +1,92 @@
+﻿@page "/status"
+
+<h3>Role</h3>
+
+
+<Button Type="primary" OnClick="@OnAddStatus">
+    Add Status
+</Button>
+
+<br />
+
+<Table @ref="table"
+       TItem="Models.Status"
+       DataSource="@StatusList"
+       Total="_total"
+       @bind-PageIndex="_pageIndex"
+       @bind-PageSize="_pageSize"
+       @bind-SelectedRows="selectedRows"
+       OnChange="OnChange"
+       Size="TableSize.Small"
+       RowKey="x=>x.ID">
+
+    <PropertyColumn Title="Id" Property="c=>c.ID" Sortable />
+    <PropertyColumn Title="Title" Property="c=>c.Name" />
+    <PropertyColumn Title="Discription" Property="c=>c.Description" Sortable />
+    <PropertyColumn Title="Criteria" Property="c=>c.Criteria" Sortable />
+
+</Table>
+
+<br />
+
+@using AntDesign;
+@using AntDesign.TableModels;
+@using System.Text.Json;
+@using System.ComponentModel;
+@using UI.Components.Pages.Modals
+@using Models;
+@using UI.Service
+
+@inject ModalService ModalService;
+
+@code {
+    List<Models.Status> StatusList;
+
+    IEnumerable<Models.Status> selectedRows;
+    ITable table;
+
+    int _pageIndex = 1;
+    int _pageSize = 10;
+    int _total = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        StatusList = await StatusService.ViewStatus();
+        _total = StatusList.Count;
+    }
+
+
+    public async Task OnChange(QueryModel<Models.Status> queryModel)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(queryModel));
+    }
+
+    // Open Update Modal and Populate with with Data
+    private async Task OnUpdate(Models.Status status)
+    {
+        var modalConfig = new ModalOptions
+            {
+                Title = "Update Role Info",
+                Centered = true,
+                OkText = "Update",
+                Width = 500
+            };
+
+        await ModalService.CreateModalAsync<AddStatusModal, Models.Status>(modalConfig, status);
+    }
+
+    // Open Add Modal (Empty)
+    private async Task OnAddStatus()
+    {
+        var modalConfig = new ModalOptions
+            {
+                Title = "Add Role Info",
+                Centered = true,
+                OkText = "Submit",
+                Width = 500
+            };
+
+        await ModalService.CreateModalAsync<AddStatusModal, Models.Status>(modalConfig, new Models.Status());
+
+    }
+}
