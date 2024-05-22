@@ -26,6 +26,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBY3Rpdml0eS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/shake/source/repos/API/UI/Components/Pages/Branch.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xCcmFuY2gucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/shake/source/repos/API/UI/Components/Pages/Employee.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbXBsb3llZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -40,6 +44,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/shake/source/repos/API/UI/Components/Pages/Modals/AddActivityModal.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNb2RhbHNcQWRkQWN0aXZpdHlNb2RhbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shake/source/repos/API/UI/Components/Pages/Modals/AddBranchModal.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNb2RhbHNcQWRkQnJhbmNoTW9kYWwucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/shake/source/repos/API/UI/Components/Pages/Modals/AddEmployeeModal.razor]

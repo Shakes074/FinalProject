@@ -1,0 +1,93 @@
+﻿@page "/branch"
+
+<h3>Branch</h3>
+
+
+<Button Type="primary" OnClick="@OnAddBranch">
+    Add Branch
+</Button>
+
+<br />
+
+<Table @ref="table"
+       TItem="Models.ViewBranch"
+       DataSource="@BranchList"
+       Total="_total"
+       @bind-PageIndex="_pageIndex"
+       @bind-PageSize="_pageSize"
+       @bind-SelectedRows="selectedRows"
+       OnChange="OnChange"
+       Size="TableSize.Small"
+       RowKey="x=>x.ID">
+
+    <PropertyColumn Title="Id" Property="c=>c.ID" Sortable />
+    <PropertyColumn Title="Branch Name" Property="c=>c.Name" />
+    <PropertyColumn Title="Province" Property="c=>c.Province" Sortable />
+    <PropertyColumn Title="Country" Property="c=>c.Country" Sortable />
+    <PropertyColumn Title="Number of Memebers" Property="c=>c.Total_Members" Sortable />
+</Table>
+
+<br />
+
+@using AntDesign;
+@using AntDesign.TableModels;
+@using System.Text.Json;
+@using System.ComponentModel;
+@using UI.Components.Pages.Modals
+@using Models;
+@using UI.Service
+
+@inject ModalService ModalService;
+
+@code {
+    
+    List<Models.ViewBranch> BranchList;
+
+    IEnumerable<Models.ViewBranch> selectedRows;
+    ITable table;
+
+    int _pageIndex = 1;
+    int _pageSize = 10;
+    int _total = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        BranchList = await BranchService.ViewBranch();
+        _total = BranchList.Count;
+    }
+
+
+    public async Task OnChange(QueryModel<Models.ViewBranch> queryModel)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(queryModel));
+    }
+
+    // Open Update Modal and Populate with with Data
+    private async Task OnUpdate(Models.InsertBranch branch)
+    {
+        var modalConfig = new ModalOptions
+            {
+                Title = "Update Branch Info",
+                Centered = true,
+                OkText = "Update",
+                Width = 500
+            };
+
+        await ModalService.CreateModalAsync<AddBranchModal, Models.InsertBranch>(modalConfig, branch);
+    }
+
+    // Open Add Modal (Empty)
+    private async Task OnAddBranch()
+    {
+        var modalConfig = new ModalOptions
+            {
+                Title = "Add Branch Info",
+                Centered = true,
+                OkText = "Submit",
+                Width = 500
+            };
+
+        await ModalService.CreateModalAsync<AddBranchModal, Models.InsertBranch>(modalConfig, new Models.InsertBranch());
+
+    }
+}

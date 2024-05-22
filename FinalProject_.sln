@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface", "Interface\Inte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{CE673B39-ED55-4200-88B8-CCA2B742A935}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FinaleDatabase", "FinaleDatabase\FinaleDatabase.sqlproj", "{099032CF-82E2-4A1E-8402-5D2BEDD0DA97}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL_SCRIPTS", "SQL_SCRIPTS", "{E413B2D9-F4C2-41EC-B313-CA12230CC20E}"
+	ProjectSection(SolutionItems) = preProject
+		TablesDefinitions.sql = TablesDefinitions.sql
+		VIEWS_SCRIPTS.sql = VIEWS_SCRIPTS.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,12 +45,6 @@ Global
 		{CE673B39-ED55-4200-88B8-CCA2B742A935}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE673B39-ED55-4200-88B8-CCA2B742A935}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE673B39-ED55-4200-88B8-CCA2B742A935}.Release|Any CPU.Build.0 = Release|Any CPU
-		{099032CF-82E2-4A1E-8402-5D2BEDD0DA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{099032CF-82E2-4A1E-8402-5D2BEDD0DA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{099032CF-82E2-4A1E-8402-5D2BEDD0DA97}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{099032CF-82E2-4A1E-8402-5D2BEDD0DA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{099032CF-82E2-4A1E-8402-5D2BEDD0DA97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{099032CF-82E2-4A1E-8402-5D2BEDD0DA97}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
