@@ -1,8 +1,0 @@
-C:\Users\shake\source\repos\API\FinaleDatabase\bin\Debug\FinaleDatabase.dacpac
-C:\Users\shake\source\repos\API\FinaleDatabase\obj\Debug\FinaleDatabase.sqlproj.AssemblyReference.cache
-C:\Users\shake\source\repos\API\FinaleDatabase\obj\Debug\Model.xml
-C:\Users\shake\source\repos\API\FinaleDatabase\obj\Debug\refactor.xml
-C:\Users\shake\source\repos\API\FinaleDatabase\obj\Debug\postdeploy.sql
-C:\Users\shake\source\repos\API\FinaleDatabase\obj\Debug\predeploy.sql
-C:\Users\shake\source\repos\API\FinaleDatabase\obj\Debug\FinaleDatabase.dll
-C:\Users\shake\source\repos\API\FinaleDatabase\obj\Debug\FinaleDatabase.pdb
