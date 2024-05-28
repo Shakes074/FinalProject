@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Interface
 {
-    public interface ICountry  
+    public interface ICountry
     {
         List<Country> CountryNames { get; }
         List<Province> ProvinceName { get; }

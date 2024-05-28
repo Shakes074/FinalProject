@@ -6,58 +6,84 @@
 @inherits FeedbackComponent<InsertBranch>
 
 <Form Model="@_model" Layout="vertical" ValidateMode=@FormValidateMode.Complex>
-    <FormItem Label="Branch Name" Required>
+    <FormItem Label="Country" Required>
+        <Select TItem="Country"
+                TItemValue="string"
+                DataSource="_CountryList"
+                @bind-Value="@context.Country"
+                Label="Province"
+                LabelName="@nameof(Country.name)"
+                ValueName="@nameof(Country.name)"
+                Placeholder="Select a Country"
+                DefaultActiveFirstOption="false"
+                EnableSearch
+                OnBlur="OnBlur"
+                OnFocus="OnFocus"
+                OnSelectedItemChanged="OnSelectedItemCountryChangedHandler"
+                OnSearch="OnSearch">
+        </Select>
+    </FormItem>
+    <FormItem Label="Province" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Select TItem="Province"
+                TItemValue="string"
+                DataSource="_ProvinceList"
+                @bind-Value="@context.Province"
+                Label="Province"
+                LabelName="@nameof(Province.name)"
+                ValueName="@nameof(Province.name)"
+                Placeholder="Select a Country"
+                DefaultActiveFirstOption="false"
+                EnableSearch
+                OnBlur="OnBlur"
+                OnFocus="OnFocus"
+                OnSelectedItemChanged="OnSelectedItemProvinceChangedHandler"
+                OnSearch="OnSearch">
+        </Select>
+    </FormItem>
+    <FormItem Label="Branch Name" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
         <Input @bind-Value="@context.Name" />
     </FormItem>
+</Form> 
 
-    <Select TItem="Country"
-            TItemValue="string"
-            DataSource="@"
-            @bind-Value="@_selectedValue"
-            LabelName="Country"
-            ValueName="@nameof(Person.Value)"
-            Placeholder="Select a person"
-            DefaultActiveFirstOption="false"
-            EnableSearch
-            OnBlur="OnBlur"
-            OnFocus="OnFocus"
-            OnSelectedItemChanged="OnSelectedItemChangedHandler"
-            OnSearch="OnSearch">
-    </Select>
 
-    <FormItem Label="Provice" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.Province" />
-    </FormItem>
 
-    <FormItem Label="Country" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.Country" />
-    </FormItem>
-</Form>
 
 @code {
-    private InsertBranch _model;
-    private bool isUpdate = false;
+@using API.httpClient;
 
-    protected override void OnInitialized()
+    InsertBranch _model;
+    List<Country> _CountryList;
+    List<Province> _ProvinceList;
+    string _selectedCountryValue;
+    string _selectedProvinceValue;
+
+    protected override async void OnInitialized()
     {
-        isUpdate = base.Options.ID <= 0;
         _model = base.Options ?? new InsertBranch();
-        base.OnInitialized();
+        await load();
     }
 
-    private void OnFinish(EditContext editContext)
+    public async Task load()
     {
-        Console.WriteLine($"Success:{JsonSerializer.Serialize(_model)}");
-        _ = base.FeedbackRef.CloseAsync();
+        _CountryList = await CountryService.GetCountries();
     }
 
-    private void OnFinishFailed(EditContext editContext)
+    private async void OnSelectedItemCountryChangedHandler(Country value)
     {
-        Console.WriteLine($"Failed:{JsonSerializer.Serialize(_model)}");
+        //_selectedItem = value.name;
+        _ProvinceList = await ProvinceClient.GetProvincesAsync(value.name);
+        //Console.WriteLine($"selected: ${value?.name}");
+    }
+
+    private void OnSelectedItemProvinceChangedHandler(Province value)
+    {
+        //_selectedItem = value.name;
+        Console.WriteLine($"selected: ${value?.name}");
     }
 
     public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
     {
+
         Console.WriteLine("ADD API", _model); // CALL API to ADD
 
         var response = await BranchService.RegisterBranch(_model);
@@ -72,8 +98,19 @@
         }
     }
 
-    public override async Task OnFeedbackCancelAsync(ModalClosingEventArgs args)
+    private void OnBlur()
     {
-        Console.WriteLine("You clicked Cancel button");
+        Console.WriteLine("blur");
     }
-}
+
+    private void OnFocus()
+    {
+        Console.WriteLine("focus");
+    }
+
+    private void OnSearch(string value)
+    {
+        Console.WriteLine($"search: {value}");
+    }
+
+} 

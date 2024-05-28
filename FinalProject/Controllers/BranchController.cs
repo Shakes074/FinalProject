@@ -1,6 +1,7 @@
 ﻿using Interface;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using System.Diagnostics.Metrics;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,4 +31,27 @@ public class BranchController : ControllerBase
     {
         return Ok(_branch.RegisterBranch(branch));
     }
+
+
+    [HttpGet("GetCountryWithBranches")]
+    public IActionResult GetCountryWithBranches()
+    {
+        return Ok(_branch.GetCoutries());
+    }
+
+    [HttpGet("GetProvinceWithBranches")]
+    public IActionResult GetProvinceWithBranches([FromQuery] ViewBranchCountries pcountry)
+    {
+        return Ok(_branch.GetProvinces(pcountry));
+    }
+
+    [HttpGet("GetBranches")]
+    public IActionResult GetBranches([FromQuery] ViewBranchesProvinces pprovince)
+    {
+        return Ok(_branch.GetBranches(pprovince));
+    }
+
+
+
+
 }

@@ -1,11 +1,23 @@
 {
   "Version": 1,
-  "Hash": "+c0NIKyecU9ALZQikSnTyHIfTpcNSdX7RHLJ8hR5e2Q=",
+  "Hash": "F5zCXMzspr0Gc8ahKKlrIQHsVm3tp2mXgOhAEmSuW14=",
   "Source": "UI",
   "BasePath": "_content/UI",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\shake\\source\\repos\\API\\FinalProject\\API.csproj",
+      "Version": 2,
+      "Source": "API",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
   "DiscoveryPatterns": [
     {
       "Name": "UI\\wwwroot",

@@ -11,10 +11,18 @@ namespace API.Controllers;
 public  class CountryController : ControllerBase
 {
     
-    // Get A List Of Activities
+    // Get A List Of Countries
     [HttpGet("GetCountries")]
-    public async Task<IActionResult>GetCountries()
+    public async Task<IActionResult> GetCountries()
     {
-        return  Ok(await CountryClient.GetCountries());
+        return  Ok(await CountryClient.GetCountry());
     }
+    // Get A List Of Provinces
+    [HttpPost("GetProvices")]
+    public async Task<IActionResult> GetProvinces([FromBody] string country)
+    {
+        return Ok(await ProvinceClient.GetProvincesAsync(country));
+    }
+
+    
 }

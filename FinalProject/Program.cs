@@ -17,7 +17,7 @@ builder.Services.AddSingleton<IStatus, StatusDAL>();
 builder.Services.AddSingleton<IActivity, ActivityDAL>();
 builder.Services.AddSingleton<IEmployee, EmployeeDAL>();
 builder.Services.AddSingleton<IBranch, BranchDAL>();
-
+builder.Services.AddSingleton<IMember, MembersDAL>();
 
 var app = builder.Build();
 

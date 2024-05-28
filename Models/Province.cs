@@ -17,7 +17,7 @@ namespace Models
         public string name { get; set; }
         public string Iso2 { get; set; }
         public string Iso3 { get; set; }
-        public List<Province> state { get; set; }
+        public List<Province> states { get; set; }
     }
     public class Province
     {

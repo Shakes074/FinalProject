@@ -15,8 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{CE67
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL_SCRIPTS", "SQL_SCRIPTS", "{E413B2D9-F4C2-41EC-B313-CA12230CC20E}"
 	ProjectSection(SolutionItems) = preProject
-		TablesDefinitions.sql = TablesDefinitions.sql
-		VIEWS_SCRIPTS.sql = VIEWS_SCRIPTS.sql
+		DataSample_Script.sql = DataSample_Script.sql
+		TablesDefinition_Script.sql = TablesDefinition_Script.sql
+		Views_Script.sql = Views_Script.sql
 	EndProjectSection
 EndProject
 Global

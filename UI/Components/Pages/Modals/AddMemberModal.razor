@@ -1,0 +1,107 @@
+﻿@using AntDesign
+@using Models
+@using System.Text.Json
+@using Service;
+
+@inherits FeedbackComponent<InsertMember>
+
+<Form Model="@_model" Layout="vertical" ValidateMode=@FormValidateMode.Complex>
+    <FormItem Label="Frist Name" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.FirstName" />
+    </FormItem>
+    <FormItem Label="Last Name" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.LastName" />
+    </FormItem>
+    <FormItem Label="Date of Birth" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.DateOfBirth" />
+    </FormItem>
+    <FormItem Label="Email" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.Email" />
+    </FormItem>
+    <FormItem Label="Phone No." Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.Phone" />
+    </FormItem>
+    <FormItem Label="Password" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.Password" />
+    </FormItem>
+    <FormItem Label="Joining Data" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+        <Input @bind-Value="@context.JoinDate" />
+    </FormItem>
+
+</Form>
+
+
+
+
+@code {
+    @using API.httpClient;
+
+    InsertMember _model;
+    List<ViewProvinceBranches> _BranchList;
+    List<ViewBranchCountries> _CountryList;
+    List<ViewBranchesProvinces> _ProvinceList;
+    List<Role> _RoleList;
+    List<Status> _StatusList;
+    List<Employee> _EmpList;
+
+    string _selectedCountryValue;
+    string _selectedProvinceValue;
+
+    protected override async void OnInitialized()
+    {
+        _model = base.Options ?? new InsertMember();
+        await loadCountry();
+    }
+
+    public async Task loadCountry()
+    {
+        //_CountryList = await CountryService.GetCountries();
+    }
+
+    private async void OnSelectedItemCountryChangedHandler(Country value)
+    {
+        //_selectedItem = value.name;
+        //_ProvinceList = await ProvinceClient.GetProvincesAsync(value.name);
+        //Console.WriteLine($"selected: ${value?.name}");
+    }
+
+    private void OnSelectedItemProvinceChangedHandler(Province value)
+    {
+        //_selectedItem = value.name;
+        //_BranchList = await BranchClient.GetBranchessAsync(value.name);
+        Console.WriteLine($"selected: ${value?.name}");
+    }
+
+    public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
+    {
+
+        Console.WriteLine("ADD API", _model); // CALL API to ADD
+
+        var response = await MemberService.RegisterMember(_model);
+
+        if (response)
+        {
+
+        }
+        else
+        {
+            Console.WriteLine("Add Failed");
+        }
+    }
+
+    private void OnBlur()
+    {
+        Console.WriteLine("blur");
+    }
+
+    private void OnFocus()
+    {
+        Console.WriteLine("focus");
+    }
+
+    private void OnSearch(string value)
+    {
+        Console.WriteLine($"search: {value}");
+    }
+
+} 
