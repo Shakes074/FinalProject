@@ -37,6 +37,54 @@ public class MemberService
         }
     }
 
-    
+    public static async Task<List<ViewBranchCountries>> GetCountries()
+    {
+        try
+        {
+            using HttpResponseMessage response = await client.GetAsync($"{baseUrl}/Branch/GetCountryWithBranches");
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<List<ViewBranchCountries>>();
+
+        }
+        catch (HttpRequestException e)
+        {
+            throw new Exception("API EROOR", e);
+        }
+    }
+
+    public static async Task<List<ViewBranchesProvinces>> GetProvinceAsync(String country)
+    {
+
+        try
+        {
+            using HttpResponseMessage response = await client.GetAsync($"{baseUrl}/Branch/GetProvinceWithBranches?Country={country}");
+            response.EnsureSuccessStatusCode();
+
+            var results = await response.Content.ReadFromJsonAsync<List<ViewBranchesProvinces>>();
+            return results;
+        }
+        catch (HttpRequestException e)
+        {
+            throw new Exception("API EROOR", e);
+        }
+    }
+
+    public static async Task<List<ViewProvinceBranches>> GetBranchesAsync(String province)
+    {
+        try
+        {
+            using HttpResponseMessage response = await client.GetAsync($"{baseUrl}/Branch/GetBranches?Province={province}");
+            response.EnsureSuccessStatusCode();
+
+            var results = await response.Content.ReadFromJsonAsync<List<ViewProvinceBranches>>();
+
+            return results;
+        }
+        catch (HttpRequestException e)
+        {
+            throw new Exception("API ERROR", e);
+        }
+    }
 
 }

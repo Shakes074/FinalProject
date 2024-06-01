@@ -3,7 +3,7 @@
 <h3>Member</h3>
 
 
-<Button Type="primary" OnClick="@OnAddMember">
+<Button Type="primary" OnClick="@OnAddBranch">
     Add Member
 </Button>
 
@@ -18,13 +18,25 @@
        @bind-SelectedRows="selectedRows"
        OnChange="OnChange"
        Size="TableSize.Small"
-       RowKey="x=>x.Id">
+       RowKey="x=>x.ID">
 
-    <PropertyColumn Title="Id" Property="c=>c.Id" Sortable />
+    <PropertyColumn Title="Id" Property="c=>c.ID" Sortable />
     <PropertyColumn Title="First Name" Property="c=>c.FirstName" />
     <PropertyColumn Title="Last Name" Property="c=>c.LastName" Sortable />
-    <PropertyColumn Title="Marital Status" Property="c=>c.MaritalStatus" Sortable />
-    <PropertyColumn Title="Date of Birth" Property="c=>c.DateOfBirth" Sortable />
+    <PropertyColumn Title="Marital Status" Property="c=>c.MaritalStatus" />
+    <PropertyColumn Title="Date of Birth" Property="c=>c.DateOfBirth" />
+    <PropertyColumn Title="Gender" Property="c=>c.Gender" Sortable/>
+    <PropertyColumn Title="Email" Property="c=>c.Email" />
+    <PropertyColumn Title="Contact Number" Property="c=>c.Phone" />
+    <PropertyColumn Title="Joining Date" Property="c=>c.JoinDate" />
+    <PropertyColumn Title="Branch Name" Property="c=>c.BranchName" />
+    <PropertyColumn Title="Province" Property="c=>c.Province" Sortable/>
+    <PropertyColumn Title="Country" Property="c=>c.Country" />
+    <PropertyColumn Title="Status" Property="c=>c.StatusName" Sortable/>
+    <PropertyColumn Title="Role" Property="c=>c.RoleName" />
+    <PropertyColumn Title="Employment Status" Property="c=>c.Employment" />
+
+
 </Table>
 
 <br />
@@ -53,7 +65,7 @@
     protected override async Task OnInitializedAsync()
     {
         MemberList = await MemberService.ViewMembers();
-        //_total = MemberList.Count;
+        _total = MemberList.Count;
     }
 
 
@@ -67,7 +79,7 @@
     {
         var modalConfig = new ModalOptions
             {
-                Title = "Update Member Info",
+                Title = "Update Branch Info",
                 Centered = true,
                 OkText = "Update",
                 Width = 500
@@ -77,11 +89,11 @@
     }
 
     // Open Add Modal (Empty)
-    private async Task OnAddMember()
+    private async Task OnAddBranch()
     {
         var modalConfig = new ModalOptions
             {
-                Title = "Add Member Info",
+                Title = "Add Branch Info",
                 Centered = true,
                 OkText = "Submit",
                 Width = 500

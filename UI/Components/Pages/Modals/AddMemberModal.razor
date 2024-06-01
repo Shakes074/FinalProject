@@ -6,72 +6,230 @@
 @inherits FeedbackComponent<InsertMember>
 
 <Form Model="@_model" Layout="vertical" ValidateMode=@FormValidateMode.Complex>
-    <FormItem Label="Frist Name" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.FirstName" />
-    </FormItem>
-    <FormItem Label="Last Name" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.LastName" />
-    </FormItem>
-    <FormItem Label="Date of Birth" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.DateOfBirth" />
-    </FormItem>
-    <FormItem Label="Email" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.Email" />
-    </FormItem>
-    <FormItem Label="Phone No." Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.Phone" />
-    </FormItem>
-    <FormItem Label="Password" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.Password" />
-    </FormItem>
-    <FormItem Label="Joining Data" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
-        <Input @bind-Value="@context.JoinDate" />
-    </FormItem>
+   
+    
 
+
+    <GridRow Gutter="(16, 16)">
+        <GridCol Span="12">
+           
+            <FormItem Label="Frist Name" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Input @bind-Value="@context.FirstName"
+                       OnBlur="OnBlur"
+                       OnFocus="OnFocus" />
+            </FormItem>
+
+            <FormItem Label="Marital Status" Required>
+                <Select TItem="MStatus"
+                        TItemValue="string"
+                        DataSource="@_MStatus"
+                        @bind-Value="@context.MaritalStatus"
+                        LabelName="@nameof(MStatus.Name)"
+                        ValueName="@nameof(MStatus.Value)"
+                        Placeholder="Select a Status"
+                        OnBlur="OnBlur"
+                        OnFocus="OnFocus"
+                        EnableSearch="false"
+                        contenteditable="false"
+                        OnSelectedItemChanged="OnSelectedItemMStatusChangedHandler"
+                        OnSearch="OnSearch">
+                </Select>
+            </FormItem>
+
+            <FormItem Label="Email" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Input @bind-Value="@context.Email"
+                       OnBlur="OnBlur"
+                       OnFocus="OnFocus" />
+            </FormItem>
+
+            <FormItem Label="Gender" Required>
+                <Select TItem="Gender"
+                        TItemValue="string"
+                        DataSource="@_Gender"
+                        @bind-Value="@context.Gender"
+                        LabelName="@nameof(Gender.Name)"
+                        ValueName="@nameof(Gender.Value)"
+                        Placeholder="Select a Gender"
+                        DefaultActiveFirstOption="false"
+                        EnableSearch="false"
+                        contenteditable="false"
+                        OnBlur="OnBlur"
+                        OnFocus="OnFocus"
+                        OnSelectedItemChanged="OnSelectedItemGenderChangedHandler"
+                        OnSearch="OnSearch">
+                </Select>
+            </FormItem>
+
+            <FormItem Label="Country" Required>
+                <Select TItem="ViewBranchCountries"
+                        TItemValue="string"
+                        DataSource="_AddCountryList"
+                        @bind-Value="@_selectedCountry"
+                        Label="Select a Country"
+                        LabelName="@nameof(ViewBranchCountries.Country)"
+                        ValueName="@nameof(ViewBranchCountries.Country)"
+                        Placeholder="Select a Country"
+                        DefaultActiveFirstOption="false"
+                        EnableSearch="false"
+                        contenteditable="false"
+                        OnBlur="OnBlur"
+                        OnFocus="OnFocus"
+                        OnSelectedItemChanged="OnSelectedItemCountryChangedHandler"
+                        OnSearch="OnSearch">
+                </Select>
+            </FormItem>
+
+            <FormItem Label="Branch" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Select TItem="ViewProvinceBranches"
+                        TItemValue="string"
+                        DataSource="_ProvinceBranchList"
+                        @bind-Value="@context.BranchName"
+                        Label="Select a Branch"
+                        LabelName="@nameof(ViewProvinceBranches.Name)"
+                        ValueName="@nameof(ViewProvinceBranches.Name)"
+                        Placeholder="Select a Branch"
+                        DefaultActiveFirstOption="false"
+                        EnableSearch="false"
+                        contenteditable="false"
+                        OnBlur="OnBlur"
+                        OnFocus="OnFocus"
+                        OnSelectedItemChanged="OnSelectedItemBranchChangedHandler"
+                        OnSearch="OnSearch">
+                </Select>
+            </FormItem>
+        </GridCol>
+
+        <GridCol Span="12">
+            <FormItem Label="Last Name" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Input @bind-Value="@context.LastName" />
+            </FormItem>
+            
+             <FormItem Label="Date of Birth">
+                <DatePicker TValue="DateTime?" ShowTime="@false"
+                            Format="dd/MM/yyyy"
+                            Picker="@DatePickerType.Date"
+                         @* @bind-Value="@context.DateOfBirth" *@
+                            @bind-Value="@context.DateOfBirth"
+                            DisabledDate="date => date > DateTime.Today"
+                            contenteditable="@false"
+                            EnableSearch="@false"
+                            OnBlur="OnBlur"
+                            OnFocus="OnFocus"
+                            OnSelectedItemChanged="OnSelectedItemDateChangedHandler"
+                            ChangeOnClose>
+                        </DatePicker>
+             </FormItem> 
+
+            <FormItem Label="Phone No." Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Input @bind-Value="@context.Phone"
+                       OnBlur="OnBlur"
+                       OnFocus="OnFocus" />
+            </FormItem>
+
+            <FormItem Label="Password" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <InputPassword @bind-Value="@context.Password"
+                               OnBlur="OnBlur"
+                               OnFocus="OnFocus" />
+            </FormItem>
+
+            <FormItem Label="Province" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Select TItem="ViewBranchesProvinces"
+                        TItemValue="string"
+                        DataSource="_CountryProvinceList"
+                        @bind-Value="@_selectedProvince"
+                        Label="Select Province"
+                        LabelName="@nameof(ViewBranchesProvinces.Province)"
+                        ValueName="@nameof(ViewBranchesProvinces.Province)"
+                        Placeholder="Select a Country"
+                        DefaultActiveFirstOption="false"
+                        EnableSearch="false"
+                        contenteditable="false"
+                        OnBlur="OnBlur"
+                        OnFocus="OnFocus"
+                        OnSelectedItemChanged="OnSelectedItemProvinceChangedHandler"
+                        OnSearch="OnSearch">
+                </Select>
+            </FormItem>
+
+            <FormItem Label="Employment Status" Required>
+                <Select TItem="EStatus"
+                        TItemValue="string"
+                        DataSource="@_EStatus"
+                        @bind-Value="@context.EmpName"
+                        LabelName="@nameof(EStatus.Name)"
+                        ValueName="@nameof(EStatus.Value)"
+                        Placeholder="Select a Status"
+                        DefaultActiveFirstOption="false"
+                        EnableSearch="false"
+                        contenteditable="false"
+                        OnBlur="OnBlur"
+                        OnFocus="OnFocus"
+                        OnSelectedItemChanged="OnSelectedItemEStatusChangedHandler"
+                        OnSearch="OnSearch">
+                </Select>
+            </FormItem>
+
+
+        </GridCol>
+    
+    </GridRow>
 </Form>
-
-
 
 
 @code {
     @using API.httpClient;
 
     InsertMember _model;
-    List<ViewProvinceBranches> _BranchList;
-    List<ViewBranchCountries> _CountryList;
-    List<ViewBranchesProvinces> _ProvinceList;
-    List<Role> _RoleList;
-    List<Status> _StatusList;
-    List<Employee> _EmpList;
+    private bool isUpdate = false;
 
-    string _selectedCountryValue;
-    string _selectedProvinceValue;
+    List<ViewBranchCountries> _AddCountryList;
+    List<ViewBranchesProvinces> _CountryProvinceList;
+    List<ViewProvinceBranches> _ProvinceBranchList;
+
+    List<EStatus> _EStatus;
+    List<MStatus> _MStatus;
+    List<Gender> _Gender;
+
+    DateTime? _DateOfBirth;
+
+    string _selectedProvince;
+    string _selectedCountry;
+    string _selectedGender;
+    string _selectedMStatus;
+    string _selectedEStatus;
+    string _selectBranch;
+
+
 
     protected override async void OnInitialized()
     {
+        isUpdate = base.Options.ID <= 0;
         _model = base.Options ?? new InsertMember();
+
+        _MStatus = new List<MStatus>
+        {
+            new MStatus { Value = "single", Name = "Single" },
+            new MStatus { Value = "married", Name = "Married" }
+        };
+        _Gender = new List<Gender>
+        {
+            new Gender { Value = "male", Name = "Male" },
+            new Gender { Value = "fe-male", Name = "Fe-Male" }
+        };
+        _EStatus = new List<EStatus>
+        {
+            new EStatus { Value = "student", Name = "Student" },
+            new EStatus { Value = "employed", Name = "Employed" },
+            new EStatus { Value = "un-employed", Name = "Un-Employed" }
+        };
         await loadCountry();
     }
 
-    public async Task loadCountry()
+    private void OnFinish(EditContext editContext)
     {
-        //_CountryList = await CountryService.GetCountries();
+        Console.WriteLine($"Success:{JsonSerializer.Serialize(_model)}");
+        _ = base.FeedbackRef.CloseAsync();
     }
-
-    private async void OnSelectedItemCountryChangedHandler(Country value)
-    {
-        //_selectedItem = value.name;
-        //_ProvinceList = await ProvinceClient.GetProvincesAsync(value.name);
-        //Console.WriteLine($"selected: ${value?.name}");
-    }
-
-    private void OnSelectedItemProvinceChangedHandler(Province value)
-    {
-        //_selectedItem = value.name;
-        //_BranchList = await BranchClient.GetBranchessAsync(value.name);
-        Console.WriteLine($"selected: ${value?.name}");
-    }
-
     public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
     {
 
@@ -89,16 +247,57 @@
         }
     }
 
+    public async Task loadCountry()
+    {
+        _AddCountryList = await MemberService.GetCountries();
+    }
+
+    private async void OnSelectedItemCountryChangedHandler(ViewBranchCountries value)
+    {
+        _selectedCountry = value.Country;
+        _CountryProvinceList = await MemberService.GetProvinceAsync(value.Country);
+    }
+
+    private async void OnSelectedItemProvinceChangedHandler(ViewBranchesProvinces value)
+    {
+        _ProvinceBranchList = await MemberService.GetBranchesAsync(value.Province);
+    }
+
+    public void OnSelectedItemBranchChangedHandler(ViewProvinceBranches value)
+    {
+        _selectBranch = value.Name;
+    }
+
+    public void OnSelectedItemEStatusChangedHandler(EStatus value)
+    {
+        _selectedEStatus = value.Name;
+    }
+
+    private void OnSelectedItemMStatusChangedHandler(MStatus value)
+    {
+        _selectedMStatus = value.Name;
+    }
+
+    private void OnSelectedItemGenderChangedHandler(Gender value)
+    {
+        _selectedGender = value.Name;
+    }
+
+    private void OnSelectedItemDateChangedHandler(getDOB value)
+    {
+        _DateOfBirth = value.DateOfBirth;
+    }
+
+
+
     private void OnBlur()
     {
         Console.WriteLine("blur");
     }
-
     private void OnFocus()
     {
         Console.WriteLine("focus");
     }
-
     private void OnSearch(string value)
     {
         Console.WriteLine($"search: {value}");

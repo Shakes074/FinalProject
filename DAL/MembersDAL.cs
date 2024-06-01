@@ -47,12 +47,10 @@ namespace DAL
                 member.Email,
                 member.Phone,
                 member.Password,
-                member.JoinDate,
                 member.BranchName,
-                member.StatusName,
-                member.RoleName,
                 member.EmpName
             }, commandType: CommandType.StoredProcedure) > 0;
         }
+    
     }
 }

@@ -58,15 +58,14 @@ public class BranchDAL : IBranch
         return connection.Query<ViewBranchesProvinces>("[dbo].[spGetBranchByProvince]", param, commandType: CommandType.StoredProcedure).ToList();
     }
 
-    public List<ViewProvinceBranches> GetBranches(ViewBranchesProvinces province)
+    public List<ViewProvinceBranches> GetBranches(ViewBranchesProvinces provinces)
     {
         using var connection = GetConnection();
 
-        var param = new { province.Province};
+        var param = new { provinces.Province };
 
         return connection.Query<ViewProvinceBranches>("[dbo].[spGetBranchInProvince]", param, commandType: CommandType.StoredProcedure).ToList();
     }
-    
 
 }
 

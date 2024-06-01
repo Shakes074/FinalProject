@@ -13,11 +13,13 @@ public class ViewBranchCountries
 {
     public string Country { get; set; }
 }
+
 public class ViewBranchesProvinces
 {
-    public string Province { get; set; }
+   public string Province { get; set; }
 }
-public class ViewProvinceBranches 
+
+public class ViewProvinceBranches
 {
     public string Name { get; set; }
 }

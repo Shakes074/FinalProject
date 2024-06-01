@@ -38,8 +38,7 @@
 
     public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
     {
-        Console.WriteLine("ADD API", _model); // CALL API to ADD
-
+        // CALL API to ADD
         var response = await ActivityService.RegisterActivity(_model);
 
         if (response)

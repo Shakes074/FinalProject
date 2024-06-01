@@ -52,8 +52,10 @@
 @using API.httpClient;
 
     InsertBranch _model;
+
     List<Country> _CountryList;
     List<Province> _ProvinceList;
+
     string _selectedCountryValue;
     string _selectedProvinceValue;
 
@@ -70,14 +72,14 @@
 
     private async void OnSelectedItemCountryChangedHandler(Country value)
     {
-        //_selectedItem = value.name;
+        _selectedCountryValue = value.name;
         _ProvinceList = await ProvinceClient.GetProvincesAsync(value.name);
         //Console.WriteLine($"selected: ${value?.name}");
     }
 
     private void OnSelectedItemProvinceChangedHandler(Province value)
     {
-        //_selectedItem = value.name;
+        _selectedProvinceValue = value.name;
         Console.WriteLine($"selected: ${value?.name}");
     }
 

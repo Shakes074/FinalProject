@@ -9,5 +9,5 @@ public interface IBranch
     public List<ViewBranchCountries> GetCoutries();
     public List<ViewBranchesProvinces> GetProvinces(ViewBranchCountries country);
     public List<ViewProvinceBranches> GetBranches(ViewBranchesProvinces provinces);
-
+    
 }

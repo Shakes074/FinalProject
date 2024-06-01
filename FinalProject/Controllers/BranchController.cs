@@ -51,7 +51,4 @@ public class BranchController : ControllerBase
         return Ok(_branch.GetBranches(pprovince));
     }
 
-
-
-
 }
