@@ -1,16 +1,17 @@
 ﻿@page "/"
 
-
-
 @using AntDesign
 @using Models;
 @using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
 @using UI.Components.Layout
+@using UI.Service
+@inject NavigationManager Navigation
+@inject INotificationService _notice
+
 
 @layout LandingLayout;
-
-
+@* 
 <Flex Gap="middle" Align="start" Vertical>
     <Flex style="@boxStyle" Justify="@justify" Align="@alignItems">
         <Form Model="@model"
@@ -18,30 +19,98 @@
               WrapperColSpan="16"
               OnFinish="OnFinish"
               OnFinishFailed="OnFinishFailed">
-            <FormItem Label="Username">
-                <Input @bind-Value="@context.Email" />
-            </FormItem>
-            <FormItem Label="Password">
-                <InputPassword @bind-Value="@context.Password" />
-            </FormItem>
-            <FormItem>
-                <a>Sign-Up</a>
-            </FormItem>
-            <FormItem WrapperColOffset="8" WrapperColSpan="16">
-                <Button Type="@ButtonType.Primary" HtmlType="submit">
-                    Submit
-                </Button>
-            </FormItem>
+            <Spin Spinning=isLoading>
+
+                <FormItem Label="Username">
+                    <Input @bind-Value="@context.Email" />
+                </FormItem>
+                <FormItem Label="Password">
+                    <InputPassword @bind-Value="@context.Password" />
+                </FormItem>
+                <FormItem>
+                    <a>Sign-Up</a>
+                </FormItem>
+                <FormItem WrapperColOffset="8" WrapperColSpan="16">
+                    <Button OnClick="@OnLogIn" Type="@ButtonType.Primary" HtmlType="submit">
+                        Submit
+                    </Button>
+                </FormItem>
+              </Spin>
         </Form>
     </Flex>
 </Flex>
-          
-                
+ *@
 
-                
+
+<GridRow>
+    <GridCol Span="6">col-6</GridCol>
+    <GridCol Span="6">col-6</GridCol>
+    <GridCol Span="6">col-6</GridCol>
+    <GridCol Span="6">col-6</GridCol>
+</GridRow>
+
+
+<GridRow>
+    <GridCol Span="6">col-6</GridCol>
+    <GridCol Span="12">
+        <Card Bordered="true">
+            <Form Model="@model"
+                  LabelColSpan="8"
+                  WrapperColSpan="16"
+                  OnFinish="OnFinish"
+                  OnFinishFailed="OnFinishFailed">
+                <Spin Spinning=isLoading>
+
+                    <GridRow>
+                        <GridCol Span="24">
+                            <FormItem Label="Username">
+                                <Input @bind-Value="@context.Email" />
+                            </FormItem>
+                        </GridCol>
+                    </GridRow>
+
+                    <GridRow>
+                        <GridCol Span="24">
+                            <FormItem Label="Password">
+                                <InputPassword @bind-Value="@context.Password" />
+                            </FormItem>
+                        </GridCol>
+                    </GridRow>
+
+
+                    <GridRow>
+                        <GridCol Span="12">
+                            <FormItem>
+                                <a>Sign-Up</a>
+                            </FormItem>
+                        </GridCol>
+
+                        <GridCol Span="12">
+                            <FormItem WrapperColOffset="8" WrapperColSpan="16">
+                                <Button OnClick="@OnLogIn" Type="@ButtonType.Primary" HtmlType="submit">
+                                    Submit
+                                </Button>
+                            </FormItem>
+                        </GridCol>
+                    </GridRow>
+
+                </Spin>
+            </Form>
+        </Card>
+    </GridCol>
+    <GridCol Span="6">col-6</GridCol>
+</GridRow>
+
+<GridRow>
+    <GridCol Span="6">col-6</GridCol>
+    <GridCol Span="6">col-6</GridCol>
+    <GridCol Span="6">col-6</GridCol>
+    <GridCol Span="6">col-6</GridCol>
+</GridRow>
 
 @code {
-    private ViewMember model = new ViewMember();
+    private LoginModel model = new LoginModel();
+    bool isLoading = false;
 
     private void OnFinish(EditContext editContext)
     {
@@ -51,6 +120,43 @@
     private void OnFinishFailed(EditContext editContext)
     {
         Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
+    }
+
+    public async void OnLogIn()
+    {
+        isLoading = true;
+        var result = await MemberService.LoginMember(model);
+
+        if (result is null)
+        {
+            await NoticeWithIcon(NotificationType.Error, "Incorret username or password");
+        }
+
+
+
+        isLoading = false;
+        //if (result)
+        //{
+        //    Navigation.NavigateTo("paster");
+        //}
+
+        if (result.RoleName.Equals("Singer"))
+        {
+            Navigation.NavigateTo("singer");
+        }
+
+        Navigation.NavigateTo("notfound");
+    }
+
+    private async Task NoticeWithIcon(NotificationType type, string message)
+    {
+        isLoading = false;
+        await _notice.Open(new NotificationConfig()
+        {
+            Message = "Login Error",
+            Description = message,
+            NotificationType = type
+        });
     }
 }
 

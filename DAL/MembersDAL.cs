@@ -47,16 +47,21 @@ namespace DAL
             }, commandType: CommandType.StoredProcedure) > 0;
         }
 
-        public List<ViewMember> LoginMember(string email, string password)
+        public ViewMember LoginMember(LoginModel model)
         {
             using var connection = GetConnection();
 
-            return connection.Query<ViewMember>("spLoginMember", new
+            return connection.QueryFirstOrDefault<ViewMember>("spLoginMember", new
             {
-               email,
-               password,
+                email = model.Email,
+                password = model.Password,
             },
-            commandType: CommandType.StoredProcedure).ToList();
+            commandType: CommandType.StoredProcedure);
+        }
+
+        public List<ViewMember> UpdateByUser(InsertMember member)
+        {
+            throw new NotImplementedException();
         }
     }
 }

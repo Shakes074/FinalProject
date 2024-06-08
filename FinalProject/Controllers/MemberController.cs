@@ -32,10 +32,17 @@ public class MemberController : ControllerBase
     }
 
     // Trying to login
-    [HttpGet("LoginMember")]
-    public IActionResult LoginMenebr(string email, string password)
+    [HttpPost("LoginMember")]
+    public IActionResult LoginMenebr([FromBody] LoginModel login)
     {
-        return Ok(_member.LoginMember(email, password));
+        var res = _member.LoginMember(login);
+
+        if (res is null)
+        {
+            return BadRequest("Incorrect username or password");
+        }
+
+        return Ok(res);
     }
 
 }

@@ -2,10 +2,10 @@
 
 namespace UI.Service;
 
-public class MemberService
+public static class MemberService
 {
-    //readonly static string baseUrl = "https://localhost:7019/api";
-    readonly static string baseUrl = "http://bongi074-002-site1.gtempurl.com/api";
+    readonly static string baseUrl = "https://localhost:7019/api";
+    //readonly static string baseUrl = "http://bongi074-002-site1.gtempurl.com/api";
     static readonly HttpClient client = new HttpClient();
 
     public static async Task<List<ViewMember>> ViewMembers()
@@ -29,20 +29,6 @@ public class MemberService
         try
         {
             using HttpResponseMessage response = await client.PostAsJsonAsync<InsertMember>($"{baseUrl}/Member/RegisterMember", activity);
-
-            return response.IsSuccessStatusCode;
-        }
-        catch (HttpRequestException e)
-        {
-            throw new Exception("API EROOR", e);
-        }
-    }
-
-    public static async Task<bool> LoginMember(ViewMember login)
-    {
-        try
-        {
-            using HttpResponseMessage response = await client.PostAsJsonAsync<ViewMember>($"{baseUrl}/Member/LoginMember", login);
 
             return response.IsSuccessStatusCode;
         }
@@ -99,6 +85,23 @@ public class MemberService
         catch (HttpRequestException e)
         {
             throw new Exception("API ERROR", e);
+        }
+    }
+
+    public static async Task<ViewMember> LoginMember(LoginModel login)
+    {
+        try
+        {
+            using HttpResponseMessage response = await client.PostAsJsonAsync<LoginModel>($"{baseUrl}/Member/LoginMember", login);
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<ViewMember>();
+
+        }
+        catch (HttpRequestException e)
+        {
+            throw new Exception("API EROOR", e);
         }
     }
 
