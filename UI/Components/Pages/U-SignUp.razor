@@ -1,0 +1,76 @@
+﻿@page "/signup"
+
+@using AntDesign
+@using Models;
+@using System.ComponentModel.DataAnnotations;
+@using System.Text.Json;
+@using UI.Components.Layout
+
+@layout LandingLayout;
+
+
+<Flex Gap="middle" Align="start" Vertical>
+    <Flex style="@boxStyle" Justify="@justify" Align="@alignItems">
+        <Form Model="@model"
+              LabelColSpan="8"
+              WrapperColSpan="16"
+              OnFinish="OnFinish"
+              OnFinishFailed="OnFinishFailed">
+            <FormItem Label="Username">
+                <Input @bind-Value="@context.Email" />
+            </FormItem>
+            <FormItem Label="Password">
+                <InputPassword @bind-Value="@context.Password" />
+            </FormItem>
+            <FormItem>
+                <a>Sign-Up</a>
+            </FormItem>
+            <FormItem WrapperColOffset="8" WrapperColSpan="16">
+                <Button Type="@ButtonType.Primary" HtmlType="submit">
+                    Submit
+                </Button>
+            </FormItem>
+        </Form>
+    </Flex>
+</Flex>
+
+
+
+
+
+@code {
+    private ViewMember model = new ViewMember();
+
+    private void OnFinish(EditContext editContext)
+    {
+        Console.WriteLine($"Success:{JsonSerializer.Serialize(model)}");
+    }
+
+    private void OnFinishFailed(EditContext editContext)
+    {
+        Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
+    }
+}
+
+@code {
+    string boxStyle = "width:100%;height:120px;border-radius:6px;border:1px solid #40a9ff;";
+
+    string[] justifyOptions = [
+         "flex-start",
+    "center",
+    "flex-end",
+    "space-between",
+    "space-around",
+    "space-evenly",
+    ];
+
+    string[] alignOptions = [
+        "flex-start",
+    "center",
+    "flex-end"
+    ];
+
+    string justify;
+    string alignItems;
+
+}

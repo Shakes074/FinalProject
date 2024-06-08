@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using Interface;
-using Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Models;
 using System.Data;
 
 namespace DAL;

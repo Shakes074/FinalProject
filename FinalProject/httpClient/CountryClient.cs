@@ -1,5 +1,4 @@
 ﻿using Models;
-using System.Text;
 
 namespace API.httpClient;
 
@@ -15,7 +14,7 @@ public static class CountryClient
             using HttpResponseMessage response = await client.GetAsync($"{baseUrl}/countries/iso");
             response.EnsureSuccessStatusCode();
 
-            var results =  await response.Content.ReadFromJsonAsync<CountryDTO>();
+            var results = await response.Content.ReadFromJsonAsync<CountryDTO>();
             return results.data;
         }
         catch (HttpRequestException e)
@@ -24,6 +23,6 @@ public static class CountryClient
         }
 
     }
-    
+
 
 }

@@ -1,8 +1,4 @@
-﻿using Azure;
-using Models;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using Models;
 
 namespace API.httpClient;
 

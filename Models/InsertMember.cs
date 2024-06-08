@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models;
+﻿namespace Models;
 
 public class InsertMember
 {
@@ -39,7 +33,7 @@ public class EStatus
     public string Name { get; set; }
 }
 
-public class getDOB 
+public class getDOB
 {
     public DateTime DateOfBirth { get; set; }
 }

@@ -1,12 +1,11 @@
 ﻿using Models;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace UI.Service;
 
 public class ActivityService
 {
-    readonly static string baseUrl = "https://localhost:7019/api";
+    //readonly static string baseUrl = "https://localhost:7019/api";
+    readonly static string baseUrl = "http://bongi074-002-site1.gtempurl.com/api";
     static readonly HttpClient client = new HttpClient();
 
     public static async Task<List<Activity>> ViewActivity()

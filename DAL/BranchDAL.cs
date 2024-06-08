@@ -3,13 +3,7 @@ using Interface;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Models;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL;
 
@@ -48,12 +42,12 @@ public class BranchDAL : IBranch
 
         return connection.Query<ViewBranchCountries>("[dbo].[spGetBranchCountries]", commandType: CommandType.StoredProcedure).ToList();
     }
-    
+
     public List<ViewBranchesProvinces> GetProvinces(ViewBranchCountries country)
     {
         using var connection = GetConnection();
 
-        var param = new { country.Country};
+        var param = new { country.Country };
 
         return connection.Query<ViewBranchesProvinces>("[dbo].[spGetBranchByProvince]", param, commandType: CommandType.StoredProcedure).ToList();
     }

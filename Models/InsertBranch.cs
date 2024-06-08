@@ -7,4 +7,4 @@ public class InsertBranch
     public string Province { get; set; }
     public string Name { get; set; }
 
-    }
+}

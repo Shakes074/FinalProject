@@ -23,7 +23,9 @@
     <PropertyColumn Title="Id" Property="c=>c.ID" Sortable />
     <PropertyColumn Title="First Name" Property="c=>c.FirstName" />
     <PropertyColumn Title="Last Name" Property="c=>c.LastName" Sortable />
-    <PropertyColumn Title="Marital Status" Property="c=>c.MaritalStatus" />
+    
+        <PropertyColumn Title="Marital Status" Property="c=>c.MaritalStatus" />
+    
     <PropertyColumn Title="Date of Birth" Property="c=>c.DateOfBirth" />
     <PropertyColumn Title="Gender" Property="c=>c.Gender" Sortable/>
     <PropertyColumn Title="Email" Property="c=>c.Email" />
@@ -36,6 +38,25 @@
     <PropertyColumn Title="Role" Property="c=>c.RoleName" />
     <PropertyColumn Title="Employment Status" Property="c=>c.Employment" />
 
+    
+
+        <ActionColumn Title="Action">
+
+        <Button OnClick="()=>OnUpdate(context)">Update</Button>
+
+            <Popconfirm Title="Sure to delete?"
+                    OnConfirm="()=> deleteRow(context.ID)"
+                    OkText="Yes"
+                    CancelText="No">
+            
+
+            <Button Type="primary">
+                <a>Delete</a>
+            </Button>
+                   
+        </Popconfirm>
+    </ActionColumn>
+    
 
 </Table>
 
@@ -75,8 +96,16 @@
     }
 
     // Open Update Modal and Populate with with Data
-    private async Task OnUpdate(Models.InsertMember member)
+    private async Task OnUpdate(Models.ViewMember context)
     {
+        var member = new InsertMember
+            {
+                LastName = context.LastName,
+                MaritalStatus = context.MaritalStatus,
+                Email = context.Email,
+                Phone = context.Phone,
+                EmpName = context.Employment
+            }; 
         var modalConfig = new ModalOptions
             {
                 Title = "Update Branch Info",
@@ -101,5 +130,11 @@
 
         await ModalService.CreateModalAsync<AddMemberModal, Models.InsertMember>(modalConfig, new Models.InsertMember());
 
+    }
+    
+    void deleteRow(int id)
+    {
+        //add api to remove from db
+        MemberList = MemberList.Where(d => d.ID != id).ToList();
     }
 }

@@ -1,6 +1,6 @@
 
-using Interface;
 using DAL;
+using Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,11 +22,11 @@ builder.Services.AddSingleton<IMember, MembersDAL>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 

@@ -3,12 +3,7 @@ using Interface;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Models;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -25,10 +20,10 @@ namespace DAL
         {
             return new SqlConnection(_config.GetConnectionString("default"));
         }
-        
+
         public List<ViewMember> ViewMember()
         {
-             using var connection = GetConnection();
+            using var connection = GetConnection();
 
             return connection.Query<ViewMember>("spGetMembers", commandType: CommandType.StoredProcedure).ToList();
         }
@@ -51,6 +46,17 @@ namespace DAL
                 member.EmpName
             }, commandType: CommandType.StoredProcedure) > 0;
         }
-    
+
+        public List<ViewMember> LoginMember(string email, string password)
+        {
+            using var connection = GetConnection();
+
+            return connection.Query<ViewMember>("spLoginMember", new
+            {
+               email,
+               password,
+            },
+            commandType: CommandType.StoredProcedure).ToList();
+        }
     }
 }

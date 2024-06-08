@@ -23,10 +23,11 @@
                 <Select TItem="MStatus"
                         TItemValue="string"
                         DataSource="@_MStatus"
-                        @bind-Value="@context.MaritalStatus"
+                        @bind-Value="@_model.MaritalStatus"
                         LabelName="@nameof(MStatus.Name)"
                         ValueName="@nameof(MStatus.Value)"
                         Placeholder="Select a Status"
+                       
                         OnBlur="OnBlur"
                         OnFocus="OnFocus"
                         EnableSearch="false"
@@ -46,7 +47,7 @@
                 <Select TItem="Gender"
                         TItemValue="string"
                         DataSource="@_Gender"
-                        @bind-Value="@context.Gender"
+                        @bind-Value="@_model.Gender"
                         LabelName="@nameof(Gender.Name)"
                         ValueName="@nameof(Gender.Value)"
                         Placeholder="Select a Gender"
@@ -108,7 +109,6 @@
                 <DatePicker TValue="DateTime?" ShowTime="@false"
                             Format="dd/MM/yyyy"
                             Picker="@DatePickerType.Date"
-                         @* @bind-Value="@context.DateOfBirth" *@
                             @bind-Value="@context.DateOfBirth"
                             DisabledDate="date => date > DateTime.Today"
                             contenteditable="@false"
@@ -155,7 +155,7 @@
                 <Select TItem="EStatus"
                         TItemValue="string"
                         DataSource="@_EStatus"
-                        @bind-Value="@context.EmpName"
+                        @bind-Value="@_model.EmpName"
                         LabelName="@nameof(EStatus.Name)"
                         ValueName="@nameof(EStatus.Value)"
                         Placeholder="Select a Status"
@@ -195,7 +195,7 @@
     string _selectedProvince;
     string _selectedCountry;
     string _selectedGender;
-    string _selectedMStatus;
+    string _selectedMStatus = "single";
     string _selectedEStatus;
     string _selectBranch;
 
@@ -208,19 +208,19 @@
 
         _MStatus = new List<MStatus>
         {
-            new MStatus { Value = "single", Name = "Single" },
-            new MStatus { Value = "married", Name = "Married" }
+            new MStatus { Value = "Single", Name = "Single" },
+            new MStatus { Value = "Married", Name = "Married" }
         };
         _Gender = new List<Gender>
         {
-            new Gender { Value = "male", Name = "Male" },
-            new Gender { Value = "fe-male", Name = "Fe-Male" }
+            new Gender { Value = "Male", Name = "Male" },
+            new Gender { Value = "Fe-male", Name = "Fe-Male" }
         };
         _EStatus = new List<EStatus>
         {
-            new EStatus { Value = "student", Name = "Student" },
-            new EStatus { Value = "employed", Name = "Employed" },
-            new EStatus { Value = "un-employed", Name = "Un-Employed" }
+            new EStatus { Value = "Student", Name = "Student" },
+            new EStatus { Value = "Employed", Name = "Employed" },
+            new EStatus { Value = "Un-employed", Name = "Un-Employed" }
         };
         await loadCountry();
     }
@@ -275,7 +275,7 @@
 
     private void OnSelectedItemMStatusChangedHandler(MStatus value)
     {
-        _selectedMStatus = value.Name;
+        _selectedMStatus = value?.Name;
     }
 
     private void OnSelectedItemGenderChangedHandler(Gender value)

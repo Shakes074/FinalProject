@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models
+﻿namespace Models
 {
-    public class ProvinceDTO 
+    public class ProvinceDTO
     {
         public bool error { get; set; }
         public string msg { get; set; }
-        public  data data { get; set; }
+        public data data { get; set; }
     }
-    public class data 
+    public class data
     {
         public string name { get; set; }
         public string Iso2 { get; set; }

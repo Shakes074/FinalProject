@@ -3,12 +3,7 @@ using Interface;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Models;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL;
 
@@ -30,7 +25,7 @@ public class ActivityDAL : IActivity
     {
         using var connection = GetConnection();
 
-        return connection.Execute("spRegisterActivity", new { activity.Name, activity.Description}, commandType: CommandType.StoredProcedure) > 0;
+        return connection.Execute("spRegisterActivity", new { activity.Name, activity.Description }, commandType: CommandType.StoredProcedure) > 0;
     }
 
     public List<Activity> ViewActivity()
