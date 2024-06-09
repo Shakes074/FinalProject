@@ -45,4 +45,32 @@ public class MemberController : ControllerBase
         return Ok(res);
     }
 
+    // Get A List Of Members
+    [HttpGet("ViewMemberGroup")]
+    public IActionResult ViewMemberGroup()
+    {
+        return Ok(_member.GetMemberGroup());
+    }
+
+    // Get A List Of Members
+    [HttpGet("ViewMemberInBranch")]
+    public IActionResult ViewMemberInBranch()
+    {
+        return Ok(_member.GetMemberInBranch());
+    }
+
+    // Get A List Of Members
+    [HttpGet("ViewMembersStatus")]
+    public IActionResult ViewMembersStatus()
+    {
+        return Ok(_member.GetMembersStatus());
+    }
+
+    // Get A List Of Members
+    [HttpGet("ViewMembersActivitites")]
+    public IActionResult ViewMembersActivitites()
+    {
+        return Ok(_member.GetMembersActivitites());
+    }
+
 }

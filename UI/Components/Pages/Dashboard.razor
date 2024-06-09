@@ -1,0 +1,224 @@
+﻿@page "/dashboard"
+
+@using AntDesign;
+
+<div>
+    <GridRow>
+        <GridCol Span="24">
+            <br/><br/>
+            <h3>Welcome to the dashboard</h3>
+        </GridCol>
+        <br/><br />
+    </GridRow>
+    <GridRow>
+        <GridCol Span="18">
+            @if (MemberGroupList != null && MemberGroupList.Count > 0)
+            {
+                <Table @ref="table"
+                       TItem="Models.MemberGroup"
+                       DataSource="@MemberGroupList"
+                       Total="_total"
+                       @bind-PageIndex="_pageIndex"
+                       @bind-PageSize="_pageSize"
+                       @bind-SelectedRows="selectedRows"
+                       OnChange="OnChange"
+                       Size="TableSize.Small">
+                    <PropertyColumn Title="First Name" Property="c=>c.FirstName" />
+                    <PropertyColumn Title="Last Name" Property="c=>c.LastName" Sortable />
+
+                    <PropertyColumn Title="Gender" Property="c=>c.Gender" Sortable />
+                    <PropertyColumn Title="Contact Number" Property="c=>c.Phone" />
+                    <PropertyColumn Title="Branch Name" Property="c=>c.Name" />
+                    <PropertyColumn Title="Age Group" Property="c=>c.Group" Sortable />
+                </Table>
+            }
+            @if(MembersInBranchList != null && MembersInBranchList.Count > 0)
+            {
+                
+                <Table @ref="table"
+                       TItem="Models.MemberInBranch"
+                       DataSource="@MembersInBranchList"
+                       Total="_total"
+                       @bind-PageIndex="_pageIndex"
+                       @bind-PageSize="_pageSize"
+                       @bind-SelectedRows="selectedRows1"
+                       OnChange="OnChange"
+                       Size="TableSize.Small">
+                    <PropertyColumn Title="Branch Name" Property="c=>c.BranchName" />
+                    <PropertyColumn Title="Sunday School" Property="c=>c.SundaySchool" Sortable />
+
+                    <PropertyColumn Title="Youth" Property="c=>c.Youth" Sortable />
+                    <PropertyColumn Title="Adults" Property="c=>c.Adults" />
+                    <PropertyColumn Title="Total Members" Property="c=>c.TotalMembers" />
+                    </Table>
+               
+            }
+            @if (MembersStatusList != null && MembersStatusList.Count > 0)
+            {
+                <Table @ref="table"
+                       TItem="Models.MemberStatus"
+                       DataSource="@MembersStatusList"
+                       Total="_total"
+                       @bind-PageIndex="_pageIndex"
+                       @bind-PageSize="_pageSize"
+                       @bind-SelectedRows="selectedRows2"
+                       OnChange="OnChange"
+                       Size="TableSize.Small">
+                    <PropertyColumn Title="First Name" Property="c=>c.FirstName" />
+                    <PropertyColumn Title="Last Name" Property="c=>c.LastName" Sortable />
+
+                    <PropertyColumn Title="Gender" Property="c=>c.Gender" Sortable />
+                    <PropertyColumn Title="Phone" Property="c=>c.Phone" />
+                    <PropertyColumn Title="Active Status" Property="c=>c.ActiveStatus" />
+                </Table>
+            }
+            @if (MemberActivititesList != null && MemberActivititesList.Count > 0)
+            {
+                <Table @ref="table"
+                       TItem="Models.MemberActivitites"
+                       DataSource="@MemberActivititesList"
+                       Total="_total"
+                       @bind-PageIndex="_pageIndex"
+                       @bind-PageSize="_pageSize"
+                       @bind-SelectedRows="selectedRows3"
+                       OnChange="OnChange"
+                       Size="TableSize.Small">
+                    <PropertyColumn Title="First Name" Property="c=>c.FirstName" />
+                    <PropertyColumn Title="Last Name" Property="c=>c.LastName" Sortable />
+
+                    <PropertyColumn Title="Gender" Property="c=>c.Gender" Sortable />
+                    <PropertyColumn Title="Phone" Property="c=>c.Phone" />
+                    <PropertyColumn Title="Active" Property="c=>c.Activity" />
+                    <PropertyColumn Title="Branch Name" Property="c=>c.Name" />
+                </Table>
+            }
+        </GridCol>
+        <GridCol Span="18">
+            
+        </GridCol>
+    </GridRow>
+    <GridRow>
+        <br /><br />
+        <GridCol Span="4">
+            <Button OnClick="GetMemberGroup" Type="primary" >
+                View Member Group
+            </Button>
+        </GridCol>
+        <GridCol Span="4">
+            <Button OnClick="GetMembersInBranch" Type="primary">
+                View Member In Branch
+            </Button>
+        </GridCol>
+        <GridCol Span="4">
+            <Button OnClick="GetMembersStatus" Type="primary">
+                View Members Status
+            </Button>
+        </GridCol>
+        <GridCol Span="4">
+            <Button OnClick="GetMembersActivitites" Type="primary">
+                View Members Activitites
+            </Button>
+        </GridCol>
+        <GridCol Span="4">
+            <Button OnClick="Reload" Type="primary">
+                Clear
+            </Button>
+        </GridCol>
+    </GridRow>
+    
+</div>
+@using AntDesign;
+@using AntDesign.TableModels;
+@using System.Text.Json;
+@using System.ComponentModel;
+@using UI.Components.Pages.Modals
+@using Models;
+@using UI.Service;
+@using AntDesign.Charts;
+
+
+@inject ModalService ModalService;
+@inject NavigationManager nav;
+
+@code {
+
+
+
+    IEnumerable<Models.MemberGroup> selectedRows;
+    IEnumerable<Models.MemberInBranch> selectedRows1;
+    IEnumerable<Models.MemberStatus> selectedRows2;
+    IEnumerable<Models.MemberActivitites> selectedRows3;
+    ITable table;
+
+    int _pageIndex = 1;
+    int _pageSize = 10;
+    int _total = 0;
+
+    List<Models.MemberGroup> MemberGroupList;
+    List<Models.MemberInBranch> MembersInBranchList;
+    List<Models.MemberStatus> MembersStatusList;
+    List<Models.MemberActivitites> MemberActivititesList;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //MemberGroupList = await MemberService.GetMemberGroup();
+        // _total = MemberGroupList.Count;
+    }
+
+
+    public async Task OnChange(QueryModel<Models.MemberGroup> queryModel)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(queryModel));
+    }
+    public async Task OnChange(QueryModel<Models.MemberInBranch> queryModel)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(queryModel));
+    }
+
+    public async Task OnChange(QueryModel<Models.MemberStatus> queryModel)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(queryModel));
+    }
+    public async Task OnChange(QueryModel<Models.MemberActivitites> queryModel)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(queryModel));
+    }
+
+    public async Task GetMemberGroup()
+    {
+
+        MemberGroupList = await MemberService.GetMemberGroup();
+    }
+
+    public async Task GetMembersInBranch()
+    {
+        MembersInBranchList = await MemberService.GetMemberInBranch();
+    }
+
+    public async Task GetMembersStatus()
+    {
+        MembersStatusList = await MemberService.GetMembersStatus();
+    }
+
+    public async Task GetMembersActivitites()
+    {
+        MemberActivititesList = await MemberService.GetMembersActivitites();
+    }
+
+    public void Reload()
+    {
+        nav.NavigateTo(nav.Uri, true);
+        nav.NavigateTo(nav.Uri, false);
+
+    }
+
+
+
+
+
+
+    
+
+
+}

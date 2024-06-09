@@ -70,5 +70,13 @@ CREATE TABLE [dbo].[MemberActivities] (
     FOREIGN KEY ([ActivityID]) REFERENCES [dbo].[Activity] ([ID])
 );
 
+drop table [dbo].[MemberActivities];
+drop table [dbo].[Members];
+drop table [dbo].[Branches];
+drop table [dbo].[EmployeeStatus];
+drop table [dbo].[Activity];
+drop table [dbo].[Status];
+drop table [dbo].[Roles];
+
 
 

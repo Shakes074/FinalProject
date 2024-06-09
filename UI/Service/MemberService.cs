@@ -24,11 +24,11 @@ public static class MemberService
         }
     }
 
-    public static async Task<bool> RegisterMember(InsertMember activity)
+    public static async Task<bool> RegisterMember(InsertMember member)
     {
         try
         {
-            using HttpResponseMessage response = await client.PostAsJsonAsync<InsertMember>($"{baseUrl}/Member/RegisterMember", activity);
+            using HttpResponseMessage response = await client.PostAsJsonAsync<InsertMember>($"{baseUrl}/Member/RegisterMember", member);
 
             return response.IsSuccessStatusCode;
         }
@@ -37,6 +37,8 @@ public static class MemberService
             throw new Exception("API EROOR", e);
         }
     }
+
+
 
     public static async Task<List<ViewBranchCountries>> GetCountries()
     {
@@ -104,5 +106,75 @@ public static class MemberService
             throw new Exception("API EROOR", e);
         }
     }
+
+
+
+    public static async Task<List<MemberGroup>> GetMemberGroup()
+    {
+        try
+        {
+            using HttpResponseMessage response = await client.GetAsync($"{baseUrl}/Member/ViewMemberGroup");
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<List<MemberGroup>>();
+
+        }
+        catch (HttpRequestException e)
+        {
+            throw new Exception("API EROOR", e);
+        }
+    }
+
+    public static async Task<List<MemberInBranch>> GetMemberInBranch()
+    {
+        try
+        {
+            using HttpResponseMessage response = await client.GetAsync($"{baseUrl}/Member/ViewMemberInBranch");
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<List<MemberInBranch>>();
+
+        }
+        catch (HttpRequestException e)
+        {
+            throw new Exception("API EROOR", e);
+        }
+    }
+
+    public static async Task<List<MemberStatus>> GetMembersStatus()
+    {
+        try
+        {
+            using HttpResponseMessage response = await client.GetAsync($"{baseUrl}/Member/ViewMembersStatus");
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<List<MemberStatus>>();
+
+        }
+        catch (HttpRequestException e)
+        {
+            throw new Exception("API EROOR", e);
+        }
+    }
+
+    public static async Task<List<MemberActivitites>> GetMembersActivitites()
+    {
+        try
+        {
+            using HttpResponseMessage response = await client.GetAsync($"{baseUrl}/Member/ViewMembersActivitites");
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<List<MemberActivitites>>();
+
+        }
+        catch (HttpRequestException e)
+        {
+            throw new Exception("API EROOR", e);
+        }
+    }
+
+
+
+
 
 }

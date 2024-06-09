@@ -1,4 +1,6 @@
-﻿namespace Models;
+﻿using System.IO;
+
+namespace Models;
 
 public class ViewMember
 {
@@ -18,4 +20,40 @@ public class ViewMember
     public string StatusName { get; set; }
     public string RoleName { get; set; }
     public string Employment { get; set; }
+}
+
+public class MemberActivitites
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Gender { get; set; }
+    public string Phone { get; set; }
+    public string Activity { get; set; }
+    public string Name { get; set; }
+}
+public class MemberStatus 
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Gender { get; set; }
+    public string Phone { get; set; }
+    public string ActiveStatus { get; set; }
+    public string BranchName { get; set; }
+}
+public class MemberInBranch
+{
+    public string BranchName { get; set; }
+    public int SundaySchool { get; set; }
+    public int Youth { get; set; }
+    public int Adults { get; set; }
+    public int TotalMembers { get; set; }
+}
+public class MemberGroup 
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Gender { get; set; }
+    public string Phone { get; set; }
+    public string Name { get; set; }
+    public string Group { get; set; }
 }

@@ -3,7 +3,7 @@
 <h3>Member</h3>
 
 
-<Button Type="primary" OnClick="@OnAddBranch">
+<Button Type="primary" OnClick="@OnAddMember">
     Add Member
 </Button>
 
@@ -108,7 +108,7 @@
             }; 
         var modalConfig = new ModalOptions
             {
-                Title = "Update Branch Info",
+                Title = "Update Member Info",
                 Centered = true,
                 OkText = "Update",
                 Width = 500
@@ -118,11 +118,11 @@
     }
 
     // Open Add Modal (Empty)
-    private async Task OnAddBranch()
+    private async Task OnAddMember()
     {
         var modalConfig = new ModalOptions
             {
-                Title = "Add Branch Info",
+                Title = "Add Member Info",
                 Centered = true,
                 OkText = "Submit",
                 Width = 500

@@ -6,52 +6,16 @@
 @using System.Text.Json;
 @using UI.Components.Layout
 @using UI.Service
+@using UI.Components.Pages.Modals;
 @inject NavigationManager Navigation
 @inject INotificationService _notice
+@inject ModalService ModalService;
 
 
 @layout LandingLayout;
-@* 
-<Flex Gap="middle" Align="start" Vertical>
-    <Flex style="@boxStyle" Justify="@justify" Align="@alignItems">
-        <Form Model="@model"
-              LabelColSpan="8"
-              WrapperColSpan="16"
-              OnFinish="OnFinish"
-              OnFinishFailed="OnFinishFailed">
-            <Spin Spinning=isLoading>
-
-                <FormItem Label="Username">
-                    <Input @bind-Value="@context.Email" />
-                </FormItem>
-                <FormItem Label="Password">
-                    <InputPassword @bind-Value="@context.Password" />
-                </FormItem>
-                <FormItem>
-                    <a>Sign-Up</a>
-                </FormItem>
-                <FormItem WrapperColOffset="8" WrapperColSpan="16">
-                    <Button OnClick="@OnLogIn" Type="@ButtonType.Primary" HtmlType="submit">
-                        Submit
-                    </Button>
-                </FormItem>
-              </Spin>
-        </Form>
-    </Flex>
-</Flex>
- *@
-
 
 <GridRow>
-    <GridCol Span="6">col-6</GridCol>
-    <GridCol Span="6">col-6</GridCol>
-    <GridCol Span="6">col-6</GridCol>
-    <GridCol Span="6">col-6</GridCol>
-</GridRow>
-
-
-<GridRow>
-    <GridCol Span="6">col-6</GridCol>
+    <GridCol Span="6"> <br> </GridCol>
     <GridCol Span="12">
         <Card Bordered="true">
             <Form Model="@model"
@@ -80,37 +44,38 @@
 
                     <GridRow>
                         <GridCol Span="12">
-                            <FormItem>
-                                <a>Sign-Up</a>
+                            <FormItem WrapperColOffset="8" WrapperColSpan="16">
+                                <Space Size="@($"{size}")">
+                                    <SpaceItem>
+                                        <Button OnClick="@OnLogIn" Type="@ButtonType.Primary" HtmlType="submit">
+                                            Login
+                                        </Button>
+                                    </SpaceItem>
+                                    <SpaceItem>
+                                        <Button Type="primary" OnClick="@OnAddMember">
+                                            Sign Up
+                                        </Button>
+                                    </SpaceItem>
+                                </Space>
                             </FormItem>
+                            
+                            
                         </GridCol>
 
-                        <GridCol Span="12">
-                            <FormItem WrapperColOffset="8" WrapperColSpan="16">
-                                <Button OnClick="@OnLogIn" Type="@ButtonType.Primary" HtmlType="submit">
-                                    Submit
-                                </Button>
-                            </FormItem>
-                        </GridCol>
+                       
                     </GridRow>
 
                 </Spin>
             </Form>
         </Card>
     </GridCol>
-    <GridCol Span="6">col-6</GridCol>
-</GridRow>
-
-<GridRow>
-    <GridCol Span="6">col-6</GridCol>
-    <GridCol Span="6">col-6</GridCol>
-    <GridCol Span="6">col-6</GridCol>
-    <GridCol Span="6">col-6</GridCol>
+   
 </GridRow>
 
 @code {
     private LoginModel model = new LoginModel();
     bool isLoading = false;
+    double size = 50;
 
     private void OnFinish(EditContext editContext)
     {
@@ -132,20 +97,32 @@
             await NoticeWithIcon(NotificationType.Error, "Incorret username or password");
         }
 
-
-
         isLoading = false;
-        //if (result)
-        //{
-        //    Navigation.NavigateTo("paster");
-        //}
 
-        if (result.RoleName.Equals("Singer"))
+        if (result.RoleName.Equals("3"))
         {
-            Navigation.NavigateTo("singer");
+            Navigation.NavigateTo("user");
+        }
+        else
+        if (result.RoleName.Equals("2"))
+        {
+            Navigation.NavigateTo("branchmanager");
+        }
+        else
+        if (result.RoleName.Equals("1"))
+        {
+            Navigation.NavigateTo("admin");
+        }
+        else
+        {
+            Navigation.NavigateTo("notfound");
         }
 
-        Navigation.NavigateTo("notfound");
+    }
+
+    public void SignUp()
+    {
+        Navigation.NavigateTo("signup");
     }
 
     private async Task NoticeWithIcon(NotificationType type, string message)
@@ -157,6 +134,20 @@
             Description = message,
             NotificationType = type
         });
+    }
+
+    private async Task OnAddMember()
+    {
+        var modalConfig = new ModalOptions
+            {
+                Title = "Add Member Info",
+                Centered = true,
+                OkText = "Submit",
+                Width = 500
+            };
+
+        await ModalService.CreateModalAsync<AddMemberModal, Models.InsertMember>(modalConfig, new Models.InsertMember());
+
     }
 }
 

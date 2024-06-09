@@ -63,5 +63,36 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
+
+
+
+
+
+
+        public List<MemberGroup> GetMemberGroup()
+        {
+            using var connection = GetConnection();
+
+            return connection.Query<MemberGroup>("spMemberGroupAges", commandType: CommandType.StoredProcedure).ToList();
+        }
+        public List<MemberInBranch> GetMemberInBranch()
+        {
+            using var connection = GetConnection();
+
+            return connection.Query<MemberInBranch>("spTotalMemberInBranch", commandType: CommandType.StoredProcedure).ToList();
+        }
+        public List<MemberStatus> GetMembersStatus()
+        {
+            using var connection = GetConnection();
+
+            return connection.Query<MemberStatus>("spMembersStatus", commandType: CommandType.StoredProcedure).ToList();
+        }
+        public List<MemberActivitites> GetMembersActivitites()
+        {
+            using var connection = GetConnection();
+
+            return connection.Query<MemberActivitites>("spMembersActivities", commandType: CommandType.StoredProcedure).ToList();
+        }
+
     }
 }

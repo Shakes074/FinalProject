@@ -90,6 +90,8 @@ VALUES
 	(N'Passed', N'Members who passed away', N'Member passed away as our members');
 SET IDENTITY_INSERT [dbo].[Status] OFF
 
+---- reseting auto ID
+DBCC CHECKIDENT (Members, RESEED, 0);
 
 BEGIN TRY
 INSERT INTO [dbo].[Members]

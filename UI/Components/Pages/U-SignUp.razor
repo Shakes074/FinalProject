@@ -1,45 +1,81 @@
 ﻿@page "/signup"
 
+
 @using AntDesign
 @using Models;
 @using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
 @using UI.Components.Layout
+@using UI.Service
+@inject NavigationManager Navigation
+@inject INotificationService _notice
+
 
 @layout LandingLayout;
 
+<GridRow>
+    <GridCol Span="6"> <br> </GridCol>
+    <GridCol Span="12">
+        <Card Bordered="true">
+            <Form Model="@model"
+                  LabelColSpan="8"
+                  WrapperColSpan="16"
+                  OnFinish="OnFinish"
+                  OnFinishFailed="OnFinishFailed">
+                <Spin Spinning=isLoading>
 
-<Flex Gap="middle" Align="start" Vertical>
-    <Flex style="@boxStyle" Justify="@justify" Align="@alignItems">
-        <Form Model="@model"
-              LabelColSpan="8"
-              WrapperColSpan="16"
-              OnFinish="OnFinish"
-              OnFinishFailed="OnFinishFailed">
-            <FormItem Label="Username">
-                <Input @bind-Value="@context.Email" />
-            </FormItem>
-            <FormItem Label="Password">
-                <InputPassword @bind-Value="@context.Password" />
-            </FormItem>
-            <FormItem>
-                <a>Sign-Up</a>
-            </FormItem>
-            <FormItem WrapperColOffset="8" WrapperColSpan="16">
-                <Button Type="@ButtonType.Primary" HtmlType="submit">
-                    Submit
-                </Button>
-            </FormItem>
-        </Form>
-    </Flex>
-</Flex>
+                    <GridRow>
+                        <GridCol Span="24">
+                            <FormItem Label="Username">
+                                <Input @bind-Value="@context.Email" />
+                            </FormItem>
+                        </GridCol>
+                    </GridRow>
+
+                    <GridRow>
+                        <GridCol Span="24">
+                            <FormItem Label="Password">
+                                <InputPassword @bind-Value="@context.Password" />
+                            </FormItem>
+                        </GridCol>
+                    </GridRow>
 
 
+                    <GridRow>
+                        <GridCol Span="12">
+                            <FormItem WrapperColOffset="8" WrapperColSpan="16">
+                                <Space Size="@($"{size}")">
+                                    
+                                    <SpaceItem>
+                                        <Button OnClick="@SignUp" Type="@ButtonType.Primary" HtmlType="submit">
+                                            Signup
+                                        </Button>
+                                    </SpaceItem>
+                                    <SpaceItem>
+                                        <Button OnClick="@OnLogIn" Type="@ButtonType.Primary" HtmlType="submit">
+                                            Login
+                                        </Button>
+                                    </SpaceItem>
+                                </Space>
+                            </FormItem>
 
 
+                        </GridCol>
+
+
+                    </GridRow>
+
+                </Spin>
+            </Form>
+        </Card>
+    </GridCol>
+
+</GridRow>
 
 @code {
-    private ViewMember model = new ViewMember();
+    private LoginModel model = new LoginModel();
+    bool isLoading = false;
+    double size = 50;
 
     private void OnFinish(EditContext editContext)
     {
@@ -49,6 +85,34 @@
     private void OnFinishFailed(EditContext editContext)
     {
         Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
+    }
+
+    public void OnLogIn()
+    {
+        Navigation.NavigateTo("/");
+    }
+
+    public async void SignUp()
+    {
+        isLoading = true;
+        var result = await MemberService.LoginMember(model);
+
+        if (result is null)
+        {
+            await NoticeWithIcon(NotificationType.Error, "Incorret username or password");
+        }
+        Navigation.NavigateTo("/");
+    }
+
+    private async Task NoticeWithIcon(NotificationType type, string message)
+    {
+        isLoading = false;
+        await _notice.Open(new NotificationConfig()
+            {
+                Message = "Login Error",
+                Description = message,
+                NotificationType = type
+            });
     }
 }
 
