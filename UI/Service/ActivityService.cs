@@ -4,8 +4,8 @@ namespace UI.Service;
 
 public class ActivityService
 {
-    readonly static string baseUrl = "https://localhost:7019/api";
-    //readonly static string baseUrl = "http://bongi074-002-site1.gtempurl.com/api";
+    //readonly static string baseUrl = "https://localhost:7019/api";
+    readonly static string baseUrl = "http://bongi074-002-site1.gtempurl.com/api";
     static readonly HttpClient client = new HttpClient();
 
     public static async Task<List<Activity>> ViewActivity()
