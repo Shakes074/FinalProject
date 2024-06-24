@@ -4,6 +4,8 @@
 @using Models;
 @using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
+@using System.Security.Cryptography
+@using System.Text
 @using UI.Components.Layout
 @using UI.Service
 @using UI.Components.Pages.Modals;
@@ -76,6 +78,7 @@
     private LoginModel model = new LoginModel();
     bool isLoading = false;
     double size = 50;
+    string paswrd = "";
 
     private void OnFinish(EditContext editContext)
     {
@@ -90,33 +93,42 @@
     public async void OnLogIn()
     {
         isLoading = true;
+        
         var result = await MemberService.LoginMember(model);
 
+
+        
         if (result is null)
         {
             await NoticeWithIcon(NotificationType.Error, "Incorret username or password");
         }
+        else
+        {
+            
+                isLoading = false;
 
-        isLoading = false;
+                if (result.RoleName.Equals("3"))
+                {
+                    Navigation.NavigateTo("user");
+                }
+                else
+                if (result.RoleName.Equals("2"))
+                {
+                Navigation.NavigateTo("branchmanager");
+                }
+                else
+                if (result.RoleName.Equals("1"))
+                {
+                    Navigation.NavigateTo("admin");
+                }
+                else
+                {
+                    Navigation.NavigateTo("notfound");
+                }
+            
 
-        if (result.RoleName.Equals("3"))
-        {
-            Navigation.NavigateTo("user");
         }
-        else
-        if (result.RoleName.Equals("2"))
-        {
-            Navigation.NavigateTo("branchmanager");
-        }
-        else
-        if (result.RoleName.Equals("1"))
-        {
-            Navigation.NavigateTo("admin");
-        }
-        else
-        {
-            Navigation.NavigateTo("notfound");
-        }
+
 
     }
 
@@ -124,6 +136,8 @@
     {
         Navigation.NavigateTo("signup");
     }
+    
+    
 
     private async Task NoticeWithIcon(NotificationType type, string message)
     {
@@ -140,13 +154,13 @@
     {
         var modalConfig = new ModalOptions
             {
-                Title = "Add Member Info",
+                Title = "Register",
                 Centered = true,
                 OkText = "Submit",
                 Width = 500
             };
 
-        await ModalService.CreateModalAsync<AddMemberModal, Models.InsertMember>(modalConfig, new Models.InsertMember());
+        await ModalService.CreateModalAsync<SignUpMemberModal, Models.InsertMember>(modalConfig, new Models.InsertMember());
 
     }
 }

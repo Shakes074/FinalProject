@@ -5,6 +5,7 @@
 
 @inherits FeedbackComponent<Activity>
 
+
 <Form Model="@_model" Layout="vertical" ValidateMode=@FormValidateMode.Complex>
     <FormItem Label="Activity Type" Required>
         <Input @bind-Value="@context.Name" />
@@ -17,6 +18,7 @@
 @code {
     private Activity _model;
     private bool isUpdate = false;
+    LoginModel _notice;
 
     protected override void OnInitialized()
     {
@@ -43,11 +45,11 @@
 
         if (response)
         {
-
+            await _notice.NoticeWithIcon(NotificationType.Error, "Added Successfully");
         }
         else
         {
-            Console.WriteLine("Add Failed");
+            await _notice.NoticeWithIcon(NotificationType.Error, "Failed to Add");
         }
     }
 

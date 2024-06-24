@@ -1,0 +1,189 @@
+﻿@using AntDesign
+@using Models
+@using System.Text.Json
+@using Service;
+
+@inherits FeedbackComponent<InsertMember>
+
+<Form Model="@_model" Layout="vertical" ValidateMode=@FormValidateMode.Complex>
+   
+    <GridRow Gutter="(16, 16)">
+
+        <GridCol Span="12">
+         
+            <FormItem Label="Marital Status" Required>
+                <Select TItem="MStatus"
+                        TItemValue="string"
+                        DataSource="@_MStatus"
+                        @bind-Value="@_model.MaritalStatus"
+                        LabelName="@nameof(MStatus.Name)"
+                        ValueName="@nameof(MStatus.Value)"
+                        Placeholder="Select a Status"
+                       
+                        OnBlur="OnBlur"
+                        OnFocus="OnFocus"
+                        EnableSearch="false"
+                        contenteditable="false"
+                        OnSelectedItemChanged="OnSelectedItemMStatusChangedHandler"
+                        OnSearch="OnSearch">
+                </Select>
+            </FormItem>
+
+            <FormItem Label="Email" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Input @bind-Value="@context.Email"
+                       OnBlur="OnBlur"
+                       OnFocus="OnFocus" />
+            </FormItem>
+
+            <FormItem Label="Employment Status" Required>
+                <Select TItem="EStatus"
+                        TItemValue="string"
+                        DataSource="@_EStatus"
+                        @bind-Value="@_model.EmployeeName"
+                        LabelName="@nameof(EStatus.Name)"
+                        ValueName="@nameof(EStatus.Value)"
+                        Placeholder="Select a Status"
+                        DefaultActiveFirstOption="false"
+                        EnableSearch="false"
+                        contenteditable="false"
+                        OnBlur="OnBlur"
+                        OnFocus="OnFocus"
+                        OnSelectedItemChanged="OnSelectedItemEStatusChangedHandler"
+                        OnSearch="OnSearch">
+                </Select>
+            </FormItem>
+
+        </GridCol>
+
+        <GridCol Span="12">
+
+            <FormItem Label="Last Name" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Input @bind-Value="@context.LastName" />
+            </FormItem>
+            
+            <FormItem Label="Phone No." Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <Input @bind-Value="@context.Phone"
+                       OnBlur="OnBlur"
+                       OnFocus="OnFocus" />
+            </FormItem>
+
+            <FormItem Label="Password" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+                <InputPassword @bind-Value="@context.Password"
+                               OnBlur="OnBlur"
+                               OnFocus="OnFocus" />
+            </FormItem>
+
+        </GridCol>
+    
+    </GridRow>
+</Form>
+
+
+@code {
+    @using API.httpClient;
+
+    InsertMember _model;
+    private bool isUpdate = false;
+    @inject INotificationService _notice;
+
+    
+
+    List<EStatus> _EStatus;
+    List<MStatus> _MStatus;
+    List<Gender> _Gender;
+
+    DateTime _DateOfBirth;
+
+    string _selectedGender;
+    string _selectedMStatus;
+    string _selectedEStatus;
+    
+    protected override async void OnInitialized()
+    {
+        isUpdate = base.Options.ID <= 0;
+        _model = base.Options ?? new InsertMember();
+
+        _MStatus = new List<MStatus>
+        {
+            new MStatus { Value = "Single", Name = "Single" },
+            new MStatus { Value = "Married", Name = "Married" }
+        };
+        _Gender = new List<Gender>
+        {
+            new Gender { Value = "Male", Name = "Male" },
+            new Gender { Value = "Fe-male", Name = "Fe-Male" }
+        };
+        _EStatus = new List<EStatus>
+        {
+            new EStatus { Value = "Student", Name = "Student" },
+            new EStatus { Value = "Employed", Name = "Employed" },
+            new EStatus { Value = "Un-employed", Name = "Un-Employed" }
+        };
+    }
+
+    private void OnFinish(EditContext editContext)
+    {
+        Console.WriteLine($"Success:{JsonSerializer.Serialize(_model)}");
+        _ = base.FeedbackRef.CloseAsync();
+    }
+    public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
+    {
+
+        Console.WriteLine("ADD API", _model); // CALL API to ADD
+
+        var response = await MemberService.RegisterMember(_model);
+
+        if (response)
+        {
+
+            await NoticeWithIcon(NotificationType.Success, "Member Updated");
+        }
+        else
+        {
+            await NoticeWithIcon(NotificationType.Error, "Failed to Update member");
+        }
+    }
+
+    public void OnSelectedItemEStatusChangedHandler(EStatus value)
+    {
+        _selectedEStatus = value.Name;
+    }
+
+    private void OnSelectedItemMStatusChangedHandler(MStatus value)
+    {
+        _selectedMStatus = value?.Name;
+    }
+
+    private void OnSelectedItemGenderChangedHandler(Gender value)
+    {
+        _selectedGender = value.Name;
+    }
+
+    private void OnSelectedItemDateChangedHandler(getDOB value)
+    {
+        _DateOfBirth = value.DateOfBirth;
+    }
+
+    private void OnBlur()
+    {
+        Console.WriteLine("blur");
+    }
+    private void OnFocus()
+    {
+        Console.WriteLine("focus");
+    }
+    private void OnSearch(string value)
+    {
+        Console.WriteLine($"search: {value}");
+    }
+
+    private async Task NoticeWithIcon(NotificationType type, string mesg)
+    {
+        await _notice.Open(new NotificationConfig()
+            {
+                Message = "Notification Title",
+                Description = mesg,
+                NotificationType = type
+            });
+    }
+} 

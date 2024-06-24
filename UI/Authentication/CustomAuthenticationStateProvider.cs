@@ -9,7 +9,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     private readonly ProtectedSessionStorage _sessionStorage;
     private ClaimsPrincipal _anonymous = new ClaimsPrincipal();
 
-    public CustomAuthenticationStateProvider(ProtectedSessionStorage sessionStorage) 
+    public CustomAuthenticationStateProvider(ProtectedSessionStorage sessionStorage)
     {
         _sessionStorage = sessionStorage;
     }
@@ -34,7 +34,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         }
     }
 
-    public async Task UpdateAuthenticationSession(UserSession userSession) 
+    public async Task UpdateAuthenticationSession(UserSession userSession)
     {
         ClaimsPrincipal claimsPrincipal;
 

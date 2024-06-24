@@ -18,7 +18,7 @@ public class ActivityDAL : IActivity
 
     private SqlConnection GetConnection()
     {
-        return new SqlConnection(_config.GetConnectionString("default"));
+        return new SqlConnection(_config.GetConnectionString("default1"));
     }
 
     public bool RegisterActivity(Activity activity)

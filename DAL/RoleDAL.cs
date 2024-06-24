@@ -19,7 +19,7 @@ public class RoleDAL : IRoles
 
     private SqlConnection GetConnection()
     {
-        return new SqlConnection(_config.GetConnectionString("default"));
+        return new SqlConnection(_config.GetConnectionString("default1"));
     }
 
     public bool RegisterRole(Role role)

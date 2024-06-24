@@ -23,18 +23,38 @@ public class MemberController : ControllerBase
     {
         return Ok(_member.ViewMember());
     }
-   
+
     // Register A Member
     [HttpPost("RegisterMember")]
-    public IActionResult RegisterEmployee([FromBody] InsertMember member)
+    public IActionResult RegisterMember([FromBody] InsertMember member)
     {
+       
         return Ok(_member.RegisterMember(member));
     }
 
+
+    // PUT Update member
+    [HttpPut("UpdateMember")]
+    public IActionResult UpdateMember([FromBody] InsertMember member, int Id)
+    {
+       
+        return Ok(_member.UpdateMember(member, Id));
+    }
+
+
+    // DELETE remove member 
+    [HttpDelete("{id}")]
+    public void Delete(int id)
+    {
+    }
+
+    
+
     // Trying to login
     [HttpPost("LoginMember")]
-    public IActionResult LoginMenebr([FromBody] LoginModel login)
+    public IActionResult LoginMemeber([FromBody] LoginModel login)
     {
+       
         var res = _member.LoginMember(login);
 
         if (res is null)

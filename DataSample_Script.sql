@@ -1,5 +1,4 @@
-﻿SET IDENTITY_INSERT [dbo].[Activity] ON
-INSERT INTO 
+﻿INSERT INTO 
 [dbo].[Activity] 
 	([Name], [Description]) 
 VALUES 
@@ -13,9 +12,7 @@ VALUES
 	(N'Retreat', N'Attendance at a spiritual retreat'),
 	(N'Baptism', N'Participation in a baptism ceremony'),
 	(N'Sealing Ceremony', N'Participation in a sealing ceremony');
-SET IDENTITY_INSERT [dbo].[Activity] OFF
 
-SET IDENTITY_INSERT [dbo].[Branches] ON
 INSERT INTO [dbo].[Branches] 
 	([Name], [Province], [Country]) 
 VALUES 
@@ -29,18 +26,14 @@ VALUES
 	(N'Gaborone', N'Gaborone', N'Botswana'),
 	(N'Harare', N'Harare', N'Zimbabwe'),
 	(N'Windhoek', N'Khomas', N'Namibia');
-SET IDENTITY_INSERT [dbo].[Branches] OFF
 
-SET IDENTITY_INSERT [dbo].[EmployeeStatus] ON
 INSERT INTO [dbo].[EmployeeStatus] 
 	([Employment], [Description]) 
 VALUES 
 	(N'Employed', N'Full-time worker'),
 	(N'Student', N'Full-time Student'),
 	(N'Un-Employed', N'Not yet working');
-SET IDENTITY_INSERT [dbo].[EmployeeStatus] OFF
 
-SET IDENTITY_INSERT [dbo].[MemberActivities] ON
 INSERT INTO [dbo].[MemberActivities] 
 	 ([MemberID], [ActivityID]) 
 VALUES 
@@ -52,9 +45,7 @@ VALUES
 	 (4, 1),
 	 (1, 1),
 	 (7, 1);
-SET IDENTITY_INSERT [dbo].[MemberActivities] OFF
 
-SET IDENTITY_INSERT [dbo].[Members] ON
 INSERT INTO [dbo].[Members] 
 	([FirstName], [LastName], [MaritalStatus], [DateOfBirth], [Gender], [Email], [Phone], [Password], [JoinDate], [BranchID], [StatusID], [RoleID], [EmployeeID]) 
 VALUES 
@@ -65,18 +56,14 @@ VALUES
 	(N'Sbonga', N'Doe', 0, N'1980-01-01', N'M', N'Sbonga.doe@example.com', N'1234567890', N'password', N'2002-05-20', 2, 1, 3, 3),
 	(N'Zama', N'Doe', 1, N'1980-01-01', N'F', N'Zama.doe@example.com', N'1234567890', N'password', N'2001-05-20', 1, 6, 3, 2),
 	(N'Zanele', N'Doe', 0, N'1980-01-01', N'M', N'Zanele.doe@example.com', N'1234567890', N'password', N'1997-05-20', 3, 2, 2, 3);
-SET IDENTITY_INSERT [dbo].[Members] OFF
 
-SET IDENTITY_INSERT [dbo].[Roles] ON
 INSERT INTO [dbo].[Roles] 
 	([Name], [Description]) 
 VALUES 
 	(N'Admin', N'Has full access to all resources'),
 	(N'Branch Manager', N'Full access to a specific branch'),
 	(N'User', N'Has limited access to resources');
-SET IDENTITY_INSERT [dbo].[Roles] OFF
 
-SET IDENTITY_INSERT [dbo].[Status] ON
 INSERT INTO [dbo].[Status] 
 	([Name], [Description], [Criteria]) 
 VALUES 
@@ -88,7 +75,6 @@ VALUES
 	(N'Inactive', N'Members who have not been active recently', N'No participation for a specified period'),
 	(N'Lapsed', N'Members who have left the church', N'Officially withdrawn or removed from membership'),
 	(N'Passed', N'Members who passed away', N'Member passed away as our members');
-SET IDENTITY_INSERT [dbo].[Status] OFF
 
 ---- reseting auto ID
 DBCC CHECKIDENT (Members, RESEED, 0);

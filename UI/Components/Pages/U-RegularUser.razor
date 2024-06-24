@@ -1,12 +1,107 @@
 ﻿@page "/user"
 
 @using UI.Components.Layout
+@using AntDesign;
+@using AntDesign.TableModels;
+@using System.Text.Json;
+@using System.ComponentModel;
+@using UI.Components.Pages.Modals
+@using Models;
+@using UI.Service
 
 @layout UserLayout;
+@inject ModalService ModalService;
 
-<PageTitle>Home</PageTitle>
+<PageTitle>User Profile</PageTitle>
 
 
 <h1>Hello, Church Member</h1>
 
-Welcome to your new app.
+<br />
+<br />
+<br />
+
+<Table @ref="table"
+       TItem="Models.ViewMember"
+       DataSource="@MemberList"
+       Total="_total"
+       @bind-PageIndex="_pageIndex"
+       @bind-PageSize="_pageSize"
+       @bind-SelectedRows="selectedRows"
+       OnChange="OnChange"
+       Size="TableSize.Small"
+       RowKey="x=>x.ID">
+
+
+    <PropertyColumn Title="First Name" Property="c=>c.FirstName" />
+    <PropertyColumn Title="Last Name" Property="c=>c.LastName"  />
+
+    <PropertyColumn Title="Marital Status" Property="c=>c.MaritalStatus" />
+
+    <PropertyColumn Title="Date of Birth" Property="c=>c.DateOfBirth" />
+    <PropertyColumn Title="Gender" Property="c=>c.Gender"  />
+    <PropertyColumn Title="Email" Property="c=>c.Email" />
+    <PropertyColumn Title="Contact Number" Property="c=>c.Phone" />
+    <PropertyColumn Title="Joining Date" Property="c=>c.JoinDate" />
+    <PropertyColumn Title="Branch Name" Property="c=>c.BranchName" />
+    <PropertyColumn Title="Status" Property="c=>c.StatusName"  />
+    <PropertyColumn Title="Employment Status" Property="c=>c.EmployeeName" />
+
+
+
+    <ActionColumn Title="Action">
+
+        <Button OnClick="()=>OnUpdate(context)">Update</Button>
+
+    </ActionColumn>
+
+
+</Table>
+
+<br />
+
+@code{
+    List<Models.ViewMember> MemberList;
+
+    IEnumerable<Models.ViewMember> selectedRows;
+    ITable table;
+
+    int _pageIndex = 1;
+    int _pageSize = 10;
+    int _total = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        MemberList = await MemberService.ViewMembers();
+        _total = MemberList.Count;
+    }
+    
+    private async Task OnUpdate(Models.ViewMember context)
+    {
+        var member = new InsertMember
+            {
+
+                LastName = context.LastName,
+                MaritalStatus = context.MaritalStatus,
+                Email = context.Email,
+                Phone = context.Phone,
+                EmployeeName = context.EmployeeName,
+                Password = context.Password
+
+            };
+        var modalConfig = new ModalOptions
+            {
+                Title = "Update Member Info",
+                Centered = true,
+                OkText = "Update",
+                Width = 500
+            };
+
+        await ModalService.CreateModalAsync<UpdateMemberModal, Models.InsertMember>(modalConfig, member);
+    }
+    public async Task OnChange(QueryModel<Models.ViewMember> queryModel)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(queryModel));
+    }
+
+}

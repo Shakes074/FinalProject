@@ -4,7 +4,7 @@
     {
         private List<UserAccount> _users;
 
-        public UserAccountService() 
+        public UserAccountService()
         {
             _users = new List<UserAccount>
             {
@@ -13,8 +13,8 @@
             };
         }
 
-        public UserAccount? GetUserAccount(string Email) 
-        { 
+        public UserAccount? GetUserAccount(string Email)
+        {
             return _users.FirstOrDefault(x => x.Email == Email);
         }
     }

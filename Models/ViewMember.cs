@@ -19,9 +19,8 @@ public class ViewMember
     public string Country { get; set; }
     public string StatusName { get; set; }
     public string RoleName { get; set; }
-    public string Employment { get; set; }
+    public string EmployeeName { get; set; }
 }
-
 public class MemberActivitites
 {
     public string FirstName { get; set; }

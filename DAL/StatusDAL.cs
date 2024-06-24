@@ -18,7 +18,7 @@ public class StatusDAL : IStatus
 
     private SqlConnection GetConnection()
     {
-        return new SqlConnection(_config.GetConnectionString("default"));
+        return new SqlConnection(_config.GetConnectionString("default1"));
     }
 
     public bool RegisterStatus(Status status)
