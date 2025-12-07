@@ -1,20 +1,20 @@
 ﻿@page "/"
 
 @using AntDesign
-@using Models;
-@using System.ComponentModel.DataAnnotations;
-@using System.Text.Json;
+@using Models
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json
 @using System.Security.Cryptography
 @using System.Text
 @using UI.Components.Layout
 @using UI.Service
-@using UI.Components.Pages.Modals;
+@using UI.Components.Pages.Modals
 @inject NavigationManager Navigation
 @inject INotificationService _notice
-@inject ModalService ModalService;
+@inject ModalService ModalService
+@inject StateLogin login
 
-
-@layout LandingLayout;
+@layout LandingLayout
 
 <GridRow>
     <GridCol Span="6"> <br> </GridCol>
@@ -25,12 +25,12 @@
                   WrapperColSpan="16"
                   OnFinish="OnFinish"
                   OnFinishFailed="OnFinishFailed">
-                <Spin Spinning=isLoading>
+                <Spin Spinning="isLoading">
 
                     <GridRow>
                         <GridCol Span="24">
                             <FormItem Label="Username">
-                                <Input @bind-Value="@context.Email" />
+                                <Input @bind-Value="model.Email" />
                             </FormItem>
                         </GridCol>
                     </GridRow>
@@ -38,47 +38,40 @@
                     <GridRow>
                         <GridCol Span="24">
                             <FormItem Label="Password">
-                                <InputPassword @bind-Value="@context.Password" />
+                                <InputPassword @bind-Value="model.Password" />
                             </FormItem>
                         </GridCol>
                     </GridRow>
-
 
                     <GridRow>
                         <GridCol Span="12">
                             <FormItem WrapperColOffset="8" WrapperColSpan="16">
                                 <Space Size="@($"{size}")">
                                     <SpaceItem>
-                                        <Button OnClick="@OnLogIn" Type="@ButtonType.Primary" HtmlType="submit">
+                                        <Button OnClick="OnLogIn" Type="@ButtonType.Primary" HtmlType="submit">
                                             Login
                                         </Button>
                                     </SpaceItem>
                                     <SpaceItem>
-                                        <Button Type="primary" OnClick="@OnAddMember">
+                                        <Button Type="primary" OnClick="SignUp">
                                             Sign Up
                                         </Button>
                                     </SpaceItem>
                                 </Space>
                             </FormItem>
-                            
-                            
                         </GridCol>
-
-                       
                     </GridRow>
 
                 </Spin>
             </Form>
         </Card>
     </GridCol>
-   
 </GridRow>
 
 @code {
-    private LoginModel model = new LoginModel();
+    private StateLogin model = new StateLogin();
     bool isLoading = false;
     double size = 50;
-    string paswrd = "";
 
     private void OnFinish(EditContext editContext)
     {
@@ -93,51 +86,43 @@
     public async void OnLogIn()
     {
         isLoading = true;
-        
+
         var result = await MemberService.LoginMember(model);
 
 
-        
         if (result is null)
         {
-            await NoticeWithIcon(NotificationType.Error, "Incorret username or password");
+            await NoticeWithIcon(NotificationType.Error, "Incorrect username or password");
         }
         else
         {
-            
-                isLoading = false;
+            isLoading = false;
+            login.Email = model.Email; // Store email in the state service
+            login.Password = model.Password; // Store password in the state service
 
-                if (result.RoleName.Equals("3"))
-                {
-                    Navigation.NavigateTo("user");
-                }
-                else
-                if (result.RoleName.Equals("2"))
-                {
-                Navigation.NavigateTo("branchmanager");
-                }
-                else
-                if (result.RoleName.Equals("1"))
-                {
-                    Navigation.NavigateTo("admin");
-                }
-                else
-                {
-                    Navigation.NavigateTo("notfound");
-                }
-            
-
+            if (result.RoleName.Equals("User"))
+            {
+                Navigation.NavigateTo("/user");
+            }
+            else if (result.RoleName.Equals("Branch Manager"))
+            {
+                Navigation.NavigateTo("/branchmanager");
+            }
+            else if (result.RoleName.Equals("Admin"))
+            {
+                Navigation.NavigateTo("/admin");
+            }
+            else
+            {
+                Navigation.NavigateTo("notfound");
+            }
         }
-
-
     }
 
     public void SignUp()
     {
         Navigation.NavigateTo("signup");
     }
-    
-    
 
     private async Task NoticeWithIcon(NotificationType type, string message)
     {
@@ -149,41 +134,4 @@
             NotificationType = type
         });
     }
-
-    private async Task OnAddMember()
-    {
-        var modalConfig = new ModalOptions
-            {
-                Title = "Register",
-                Centered = true,
-                OkText = "Submit",
-                Width = 500
-            };
-
-        await ModalService.CreateModalAsync<SignUpMemberModal, Models.InsertMember>(modalConfig, new Models.InsertMember());
-
-    }
-}
-
-@code {
-    string boxStyle = "width:100%;height:120px;border-radius:6px;border:1px solid #40a9ff;";
-
-    string[] justifyOptions = [
-         "flex-start",
-    "center",
-    "flex-end",
-    "space-between",
-    "space-around",
-    "space-evenly",
-    ];
-
-    string[] alignOptions = [
-        "flex-start",
-    "center",
-    "flex-end"
-    ];
-
-    string justify;
-    string alignItems;
-
 }

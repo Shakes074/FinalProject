@@ -2,6 +2,9 @@
 @using Models
 @using System.Text.Json
 @using Service;
+@using API.httpClient;
+@inject INotificationService _notice
+
 
 @inherits FeedbackComponent<InsertMember>
 
@@ -177,12 +180,9 @@
 
 
 @code {
-    @using API.httpClient;
-    @inject INotificationService _notice
-
     InsertMember _model;
     private bool isUpdate = false;
-    //LoginModel _notice;
+    
 
     List<ViewBranchCountries> _AddCountryList;
     List<ViewBranchesProvinces> _CountryProvinceList;

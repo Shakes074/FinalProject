@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Models;
+﻿namespace Models;
 
 public class ViewMember
 {
@@ -30,7 +28,7 @@ public class MemberActivitites
     public string Activity { get; set; }
     public string Name { get; set; }
 }
-public class MemberStatus 
+public class MemberStatus
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -47,7 +45,7 @@ public class MemberInBranch
     public int Adults { get; set; }
     public int TotalMembers { get; set; }
 }
-public class MemberGroup 
+public class MemberGroup
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

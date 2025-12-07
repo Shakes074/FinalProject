@@ -1,6 +1,20 @@
 ﻿@page "/branch"
+@using AntDesign;
+@using AntDesign.TableModels;
+@using System.Text.Json;
+@using System.ComponentModel;
+@using UI.Components.Pages.Modals
+@using Models;
+@using UI.Components.Layout
+@using UI.Service
+@inject StateLogin login
+@inject ModalService ModalService;
 
-<h3>Branch</h3>
+@layout AdminLayout;
+
+<br />
+<br />
+<h3>Hey admin  @login.Email these are the Branch</h3>
 
 
 <Button Type="primary" OnClick="@OnAddBranch">
@@ -29,15 +43,6 @@
 
 <br />
 
-@using AntDesign;
-@using AntDesign.TableModels;
-@using System.Text.Json;
-@using System.ComponentModel;
-@using UI.Components.Pages.Modals
-@using Models;
-@using UI.Service
-
-@inject ModalService ModalService;
 
 @code {
     

@@ -1,114 +1,141 @@
-﻿INSERT INTO 
-[dbo].[Activity] 
-	([Name], [Description]) 
-VALUES 
-	(N'Sunday Service', N'Attendance at the weekly Sunday service'), 
-	(N'Bible Study', N'Participation in a Bible study group'),
-	(N'Prayer Meeting', N'Attendance at a prayer meeting'),
-	(N'Outreach Event', N'Involvement in community outreach activities'),
-	(N'Youth Program', N'Participation in youth-specific programs and events'),
-	(N'Choir Practice', N'Attendance at choir practice sessions'),
-	(N'Volunteer Work', N'Volunteering for church-related tasks or events'),
-	(N'Retreat', N'Attendance at a spiritual retreat'),
-	(N'Baptism', N'Participation in a baptism ceremony'),
-	(N'Sealing Ceremony', N'Participation in a sealing ceremony');
+﻿-- Insert EmploymentStatus
+IF NOT EXISTS (SELECT 1 FROM EmploymentStatus)
+INSERT INTO EmploymentStatus (Employment, [Description]) VALUES
+('Un-Employed', 'Currently not employed'),
+('Employed', 'Currently employed'),
+('Self-Employed', 'Self-employed or business owner'),
+('Student', 'Currently studying'),
+('Retired', 'Retired from employment');
+GO
 
-INSERT INTO [dbo].[Branches] 
-	([Name], [Province], [Country]) 
-VALUES 
-	(N'Johannesburg Central', N'Gauteng', N'South Africa'),
-	(N'Cape Town', N'Western Cape', N'South Africa'),
-	(N'Durban', N'KwaZulu-Natal', N'South Africa'),
-	(N'Pretoria', N'Gauteng', N'South Africa'),
-	(N'Bloemfontein', N'Free State', N'South Africa'),
-	(N'Lusaka', N'Lusaka', N'Zambia'),
-	(N'Nairobi', N'Nairobi', N'Kenya'),
-	(N'Gaborone', N'Gaborone', N'Botswana'),
-	(N'Harare', N'Harare', N'Zimbabwe'),
-	(N'Windhoek', N'Khomas', N'Namibia');
+-- Insert Branches
+IF NOT EXISTS (SELECT 1 FROM Branches)
+INSERT INTO Branches ([Name], Province, Country) VALUES
+('Johannesburg Central', 'Gauteng', 'South Africa'),
+('Cape Town Coastal', 'Western Cape', 'South Africa'),
+('Durban Coastal', 'KwaZulu-Natal', 'South Africa'),
+('Pretoria Capital', 'Gauteng', 'South Africa');
+GO
 
-INSERT INTO [dbo].[EmployeeStatus] 
-	([Employment], [Description]) 
-VALUES 
-	(N'Employed', N'Full-time worker'),
-	(N'Student', N'Full-time Student'),
-	(N'Un-Employed', N'Not yet working');
+-- Insert Roles
+IF NOT EXISTS (SELECT 1 FROM Roles)
+INSERT INTO Roles ([Name], [Description]) VALUES
+('Admin', 'System administrator with full access'),
+('Branch Manager', 'Manages branch operations and members'),
+('User', 'Regular member with basic access'),
+('Moderator', 'Can manage content and moderate discussions');
+GO
 
-INSERT INTO [dbo].[MemberActivities] 
-	 ([MemberID], [ActivityID]) 
-VALUES 
-	 (1, 2),
-	 (3, 4),
-	 (1, 3),
-	 (2, 6),
-	 (1, 9),
-	 (4, 1),
-	 (1, 1),
-	 (7, 1);
+-- Insert Status
+IF NOT EXISTS (SELECT 1 FROM [Status])
+INSERT INTO [Status] ([Name], [Description], Criteria) VALUES
+('Welcomed', 'New member who has been welcomed', 'Completed welcome process'),
+('Waiting for Sealing', 'Member waiting for sealing ceremony', 'Attended required sessions'),
+('Sealed', 'Member has been sealed', 'Completed sealing ceremony'),
+('Testifier', 'Active testifier in the church', 'Regularly testifies'),
+('Inactive', 'Member currently inactive', 'No activity for 3+ months'),
+('Passed', 'Member has passed away', 'Deceased member');
+GO
 
-INSERT INTO [dbo].[Members] 
-	([FirstName], [LastName], [MaritalStatus], [DateOfBirth], [Gender], [Email], [Phone], [Password], [JoinDate], [BranchID], [StatusID], [RoleID], [EmployeeID]) 
-VALUES 
-	(N'John', N'Doe', 1, N'1980-01-01', N'M', N'john.doe@example.com', N'1234567890', N'password', N'2000-05-20', 1, 3, 1, 1),
-	(N'Zodwa', N'Doe', 0, N'1980-01-01', N'F', N'Zodwa.doe@example.com', N'1234567890', N'password', N'2015-05-20', 2, 1, 3, 2),
-	(N'Londi', N'Doe', 0, N'1980-01-01', N'M', N'Londi.doe@example.com', N'1234567890', N'password', N'2018-05-20', 3, 5, 2, 2),
-	(N'Xoli', N'Doe', 1, N'1980-01-01', N'F', N'Xoli.doe@example.com', N'1234567890', N'password', N'1995-05-20', 1, 8, 3, 3),
-	(N'Sbonga', N'Doe', 0, N'1980-01-01', N'M', N'Sbonga.doe@example.com', N'1234567890', N'password', N'2002-05-20', 2, 1, 3, 3),
-	(N'Zama', N'Doe', 1, N'1980-01-01', N'F', N'Zama.doe@example.com', N'1234567890', N'password', N'2001-05-20', 1, 6, 3, 2),
-	(N'Zanele', N'Doe', 0, N'1980-01-01', N'M', N'Zanele.doe@example.com', N'1234567890', N'password', N'1997-05-20', 3, 2, 2, 3);
+-- Insert Activity
+IF NOT EXISTS (SELECT 1 FROM Activity)
+INSERT INTO Activity ([Name], [Description]) VALUES
+('Sunday Service', 'Weekly Sunday worship service'),
+('Bible Study', 'Weekly bible study groups'),
+('Youth Meeting', 'Youth group meetings and activities'),
+('Prayer Meeting', 'Weekly prayer sessions'),
+('Community Outreach', 'Community service and outreach programs');
+GO
 
-INSERT INTO [dbo].[Roles] 
-	([Name], [Description]) 
-VALUES 
-	(N'Admin', N'Has full access to all resources'),
-	(N'Branch Manager', N'Full access to a specific branch'),
-	(N'User', N'Has limited access to resources');
+-- Insert Members (Updated for EmploymentStatusID)
+IF NOT EXISTS (SELECT 1 FROM Members)
+INSERT INTO [dbo].[Members] (
+    [FirstName], [LastName], [MaritalStatus], [DateOfBirth], [Gender],
+    [Email], [Phone], [Password], [JoinDate], 
+    [BranchID], [StatusID], [RoleID], [EmploymentStatusID], IsActive
+) VALUES
+-- Admin/Leadership
+(N'John', N'Doe', 'Married', '1980-01-01', 'M', N'john.doe@example.com', N'1234567890', 
+ CAST('password' AS VARBINARY(256)), '2000-05-20', 1, 3, 1, 2, 1),
 
-INSERT INTO [dbo].[Status] 
-	([Name], [Description], [Criteria]) 
-VALUES 
-	(N'Welcomed', N'New members who have been welcomed into the church', N'Attended introduction sessions'),
-	(N'Waiting for Sealing', N'Members in the process of being sealed', N'Currently attending required courses'),
-	(N'Sealed', N'Members who have been officially sealed as part of the church', N'Completed required courses and ceremonies'),
-	(N'Baptized', N'Members who have been baptized', N'Completed baptism ceremony'),
-	(N'Testifier', N'Members who have given their testimony', N'Shared their personal story and experience'),
-	(N'Inactive', N'Members who have not been active recently', N'No participation for a specified period'),
-	(N'Lapsed', N'Members who have left the church', N'Officially withdrawn or removed from membership'),
-	(N'Passed', N'Members who passed away', N'Member passed away as our members');
+(N'Zanele', N'Doe', 'Single', '1985-02-15', 'F', N'zanele.doe@example.com', N'1234567891', 
+ CAST('password' AS VARBINARY(256)), '1997-05-20', 3, 2, 2, 3, 1),
 
----- reseting auto ID
-DBCC CHECKIDENT (Members, RESEED, 0);
+(N'Londi', N'Doe', 'Single', '1978-03-20', 'M', N'londi.doe@example.com', N'1234567892', 
+ CAST('password' AS VARBINARY(256)), '2018-05-20', 3, 5, 2, 2, 1),
 
-BEGIN TRY
-INSERT INTO [dbo].[Members]
-(
-    [FirstName], [LastName], 
-    [MaritalStatus], [DateOfBirth], [Gender],
-    [Email], [Phone], [Password], [JoinDate],
-    [BranchID], [StatusID], [RoleID], [EmployeeID]
-)
-VALUES
-(
-    'Shakes', 'Chili', 
-    (CASE WHEN 'YES' = 'YES' THEN 1 ELSE 0 END),
-    '2024/12/02',
-    (CASE WHEN 'MALE' = 'MALE' THEN 'M' ELSE 'F' END),
-    'shakes02@me.com',
-    '0733587521',
-    'Paswd123',
-    '2024/01/30',
-    (SELECT ID FROM [dbo].[Branches] WHERE [Name] = 'Lusaka'),
-    (SELECT ID FROM [dbo].[Status] WHERE [Name] = 'Welcomed'),
-    (SELECT ID FROM Roles WHERE [Name] = 'User'),
-    (SELECT ID FROM [dbo].[EmployeeStatus] WHERE [Employment] = 'Student')
-);
-END TRY
-BEGIN CATCH
-    IF ERROR_NUMBER() = 2627
-    BEGIN
-        PRINT 'A record with this email already exists.'
-    END
-END CATCH
+-- Regular Members
+(N'Xoli', N'Doe', 'Married', '1990-04-25', 'F', N'xoli.doe@example.com', N'1234567893', 
+ CAST('password' AS VARBINARY(256)), '1995-05-20', 1, 6, 3, 1, 1),
+
+(N'Zodwa', N'Doe', 'Single', '1995-05-30', 'F', N'zodwa.doe@example.com', N'1234567894', 
+ CAST('password' AS VARBINARY(256)), '2015-05-20', 2, 1, 3, 4, 1),
+
+(N'Zama', N'Doe', 'Married', '1988-06-10', 'F', N'zama.doe@example.com', N'1234567895', 
+ CAST('password' AS VARBINARY(256)), '2001-05-20', 1, 5, 3, 2, 1),
+
+(N'Sbonga', N'Doe', 'Single', '1992-07-15', 'M', N'sbonga.doe@example.com', N'1234567896', 
+ CAST('password' AS VARBINARY(256)), '2002-05-20', 2, 1, 3, 3, 1);
+GO
+
+-- Insert MemberActivities
+IF NOT EXISTS (SELECT 1 FROM MemberActivities)
+INSERT INTO MemberActivities (MemberID, ActivityID, ParticipationDate, HoursParticipated) VALUES
+(1, 1, '2024-01-15', 2.5), (1, 2, '2024-01-16', 1.5), (1, 4, '2024-01-17', 1.0),
+(2, 1, '2024-01-15', 2.5), (2, 3, '2024-01-18', 2.0),
+(3, 1, '2024-01-15', 2.5), (3, 5, '2024-01-19', 3.0),
+(4, 1, '2024-01-15', 2.5), (4, 2, '2024-01-16', 1.5),
+(5, 1, '2024-01-15', 2.5), (5, 4, '2024-01-17', 1.0);
+GO
+
+-- Insert Attendance
+IF NOT EXISTS (SELECT 1 FROM Attendance)
+INSERT INTO Attendance (MemberID, ActivityID, AttendanceDate, TimeIn, TimeOut, IsPresent) VALUES
+(1, 1, '2024-01-15', '09:00', '11:30', 1),
+(2, 1, '2024-01-15', '09:15', '11:30', 1),
+(3, 1, '2024-01-15', '09:05', '11:00', 1),
+(4, 1, '2024-01-15', '09:10', '11:30', 1),
+(5, 1, '2024-01-15', '09:20', '11:15', 1),
+(1, 2, '2024-01-16', '18:00', '19:30', 1),
+(4, 2, '2024-01-16', '18:05', '19:30', 1);
+GO
+
+-- Insert Contributions
+IF NOT EXISTS (SELECT 1 FROM Contributions)
+INSERT INTO Contributions (MemberID, ContributionDate, Amount, ContributionType, PaymentMethod, ReferenceNumber) VALUES
+(1, '2024-01-15', 500.00, 'Tithe', 'Bank Transfer', 'TXN001234'),
+(2, '2024-01-15', 300.00, 'Tithe', 'Cash', NULL),
+(3, '2024-01-15', 450.00, 'Tithe', 'Bank Transfer', 'TXN001235'),
+(4, '2024-01-15', 200.00, 'Offering', 'Cash', NULL),
+(5, '2024-01-15', 150.00, 'Offering', 'Mobile Money', 'MM001236'),
+(1, '2024-01-22', 100.00, 'Building Fund', 'Bank Transfer', 'TXN001237'),
+(2, '2024-01-22', 50.00, 'Donation', 'Cash', NULL);
+GO
+
+-- Insert MemberStatus (Status history)
+IF NOT EXISTS (SELECT 1 FROM MemberStatus)
+INSERT INTO MemberStatus (MemberID, StatusID, StartDate, EndDate, IsActive) VALUES
+(1, 1, '2000-05-20', '2000-06-20', 0),
+(1, 2, '2000-06-20', '2000-08-15', 0),
+(1, 3, '2000-08-15', NULL, 1),
+(2, 1, '1997-05-20', '1997-06-20', 0),
+(2, 2, '1997-06-20', NULL, 1),
+(3, 1, '2018-05-20', '2018-06-20', 0),
+(3, 5, '2018-06-20', NULL, 1);
+GO
+
+
+DELETE FROM Contributions;
+DELETE FROM Attendance;
+DELETE FROM MemberActivities;
+DELETE FROM MemberStatus;
+DELETE FROM Members;
+DELETE FROM Activity;
+DELETE FROM Branches;
+DELETE FROM Roles;
+DELETE FROM [Status];
+GO
+
 
 
 

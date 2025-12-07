@@ -1,4 +1,5 @@
 ﻿using Interface;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
@@ -28,7 +29,6 @@ public class MemberController : ControllerBase
     [HttpPost("RegisterMember")]
     public IActionResult RegisterMember([FromBody] InsertMember member)
     {
-       
         return Ok(_member.RegisterMember(member));
     }
 
@@ -48,22 +48,23 @@ public class MemberController : ControllerBase
     {
     }
 
-    
+
 
     // Trying to login
     [HttpPost("LoginMember")]
-    public IActionResult LoginMemeber([FromBody] LoginModel login)
-    {
-       
-        var res = _member.LoginMember(login);
+     public IActionResult LoginMemeber([FromBody] LoginModel login)
+     {
 
-        if (res is null)
-        {
-            return BadRequest("Incorrect username or password");
-        }
+         var res = _member.LoginMember(login);
 
-        return Ok(res);
-    }
+         if (res is null)
+         {
+             return BadRequest("Incorrect username or password");
+         }
+
+         return Ok(res);
+     }
+
 
     // Get A List Of Members
     [HttpGet("ViewMemberGroup")]

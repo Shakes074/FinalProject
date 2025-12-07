@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL_SCRIPTS", "SQL_SCRIPTS", "{E413B2D9-F4C2-41EC-B313-CA12230CC20E}"
 	ProjectSection(SolutionItems) = preProject
 		DataSample_Script.sql = DataSample_Script.sql
+		sp_scripts.sql = sp_scripts.sql
 		TablesDefinition_Script.sql = TablesDefinition_Script.sql
 		Views_Script.sql = Views_Script.sql
 	EndProjectSection

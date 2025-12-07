@@ -1,7 +1,5 @@
 ﻿using Models;
-
 namespace Interface;
-
 public interface IMember
 {
     public List<ViewMember> ViewMember();

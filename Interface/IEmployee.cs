@@ -1,5 +1,4 @@
 ﻿using Models;
-
 namespace Interface;
 
 public interface IEmployee

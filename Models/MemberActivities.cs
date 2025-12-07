@@ -1,8 +1,7 @@
-﻿namespace Models
+﻿namespace Models;
+
+public class MemberActivities
 {
-    public class MemberActivities
-    {
-        public int ID { get; set; }
-        public string name { get; set; }
-    }
+    public int ID { get; set; }
+    public string name { get; set; }
 }

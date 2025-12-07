@@ -8,6 +8,7 @@
 @using UI.Components.Pages.Modals
 @using Models;
 @using UI.Service
+@inject StateLogin login
 
 @layout UserLayout;
 @inject ModalService ModalService;
@@ -15,7 +16,7 @@
 <PageTitle>User Profile</PageTitle>
 
 
-<h1>Hello, Church Member</h1>
+<h1>My Details  @login.Email</h1>
 
 <br />
 <br />

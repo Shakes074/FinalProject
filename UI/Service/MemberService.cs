@@ -105,12 +105,12 @@ public static class MemberService
         }
     }
 
-    public static async Task<ViewMember> LoginMember(LoginModel login)
+    public static async Task<ViewMember> LoginMember(StateLogin login)
     {
         try
         {
 
-            using HttpResponseMessage response = await client.PostAsJsonAsync<LoginModel>($"{baseUrl}/Member/LoginMember", login);
+            using HttpResponseMessage response = await client.PostAsJsonAsync<StateLogin>($"{baseUrl}/Member/LoginMember", login);
 
             response.EnsureSuccessStatusCode();
 

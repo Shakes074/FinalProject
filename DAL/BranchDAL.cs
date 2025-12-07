@@ -18,7 +18,7 @@ public class BranchDAL : IBranch
 
     private SqlConnection GetConnection()
     {
-        return new SqlConnection(_config.GetConnectionString("default1"));
+        return new SqlConnection(_config.GetConnectionString("default2"));
     }
 
     public bool RegisterBranch(InsertBranch branch)

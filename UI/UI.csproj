@@ -11,8 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.19.1" />
-    <PackageReference Include="AntDesign.Charts" Version="0.5.1" />
+    <None Include="Components\Pages\UserActivities.razor" />
+    <None Include="Components\Pages\BranchActivities.razor" />
+    <None Include="Components\Pages\BranchProfile.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AntDesign" Version="0.19.3" />
+    <PackageReference Include="AntDesign.Charts" Version="0.5.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
       <PrivateAssets>all</PrivateAssets>

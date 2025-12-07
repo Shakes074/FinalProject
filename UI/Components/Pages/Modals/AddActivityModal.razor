@@ -2,6 +2,7 @@
 @using Models
 @using System.Text.Json
 @using Service;
+@inject INotificationService _notice
 
 @inherits FeedbackComponent<Activity>
 
@@ -18,7 +19,7 @@
 @code {
     private Activity _model;
     private bool isUpdate = false;
-    LoginModel _notice;
+    bool isLoading = false;
 
     protected override void OnInitialized()
     {
@@ -45,16 +46,27 @@
 
         if (response)
         {
-            await _notice.NoticeWithIcon(NotificationType.Error, "Added Successfully");
+            await NoticeWithIcon(NotificationType.Error, "Added Successfully");
         }
         else
         {
-            await _notice.NoticeWithIcon(NotificationType.Error, "Failed to Add");
+            await NoticeWithIcon(NotificationType.Error, "Failed to Add");
         }
     }
 
     public override async Task OnFeedbackCancelAsync(ModalClosingEventArgs args)
     {
         Console.WriteLine("You clicked Cancel button");
+    }
+
+    private async Task NoticeWithIcon(NotificationType type, string message)
+    {
+        isLoading = false;
+        await _notice.Open(new NotificationConfig()
+            {
+                Message = "Login Error",
+                Description = message,
+                NotificationType = type
+            });
     }
 }

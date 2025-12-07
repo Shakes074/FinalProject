@@ -23,7 +23,7 @@ public class MembersDAL : IMember
 
     private SqlConnection GetConnection()
     {
-        return new SqlConnection(_config.GetConnectionString("default1"));
+        return new SqlConnection(_config.GetConnectionString("default2"));
     }
 
     public List<ViewMember> ViewMember()
@@ -39,6 +39,7 @@ public class MembersDAL : IMember
         //encrpt before registering
 
         Password = crypt.HashPassword(member.Password);
+
         return connection.Execute("spRegisterMember", new
         {
            member.FirstName,
@@ -81,13 +82,11 @@ public class MembersDAL : IMember
     public ViewMember LoginMember(LoginModel model)
     {
         using var connection = GetConnection();
-       
-        string password = crypt.HashPassword(model.Password);
+
         return connection.QueryFirstOrDefault<ViewMember>("spLoginMember", new
         {
-            
             email = model.Email,
-            password = password,
+            password = model.HashPassword(model.Password), 
         },
         commandType: CommandType.StoredProcedure);
     }

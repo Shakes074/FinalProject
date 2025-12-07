@@ -3,6 +3,7 @@
 @using System.Text.Json
 @using Service;
 @inject INotificationService _notice
+@using API.httpClient;
 
 @inherits FeedbackComponent<InsertBranch>
 
@@ -50,7 +51,7 @@
 
 
 @code {
-@using API.httpClient;
+
 
     InsertBranch _model;
 
